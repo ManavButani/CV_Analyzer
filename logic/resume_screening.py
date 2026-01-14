@@ -6,12 +6,14 @@ from schema.resume_screening import (
 )
 from logic.file_parser import extract_text_from_file
 from logic.jd_analyzer import analyze_jd
-from logic.resume_parser import parse_resume
-from logic.skill_matcher import match_skills
-from logic.experience_evaluator import evaluate_experience
-from logic.scoring_ranker import calculate_candidate_score, rank_candidates
+from logic.combined_analyzer import analyze_resume_combined
+from logic.scoring_ranker import rank_candidates
 from logic.utils import get_traceback_string
 from logic.llm_handler import LLMHandler
+from schema.resume_screening import (
+    StructuredResume, SkillMatchResult, ExperienceEvaluationResult,
+    CandidateScore, CandidateExplanation
+)
 
 
 async def orchestrate_resume_screening(
@@ -110,8 +112,9 @@ async def orchestrate_resume_screening(
             "preferred_skills_count": len(structured_jd.preferred_skills)
         }
         
-        # Step 2: Parse all resumes
-        structured_resumes = []
+        # Step 2 & 3: Analyze all resumes (single API call per resume)
+        ranked_data = []
+        
         for idx, resume_input in enumerate(request.resumes):
             resume_text = None
             try:
@@ -127,93 +130,90 @@ async def orchestrate_resume_screening(
                         "status": "skipped",
                         "error": "No resume text or file provided"
                     }
-                    continue  # Skip invalid resume
+                    continue
             except Exception as e:
                 intermediate_outputs["resume_parsing"][f"resume_{idx}"] = {
                     "status": "error",
                     "error": f"Failed to parse resume file: {str(e)}"
                 }
-                continue  # Skip resume with parsing error
+                continue
             
-            structured_resume, resume_status = await parse_resume(
+            # Single API call for combined analysis
+            combined_result, analysis_status = await analyze_resume_combined(
                 resume_text=resume_text,
+                structured_jd=structured_jd,
+                scoring_weights=request.scoring_weights or {},
                 handler=handler,
                 candidate_name=resume_input.candidate_name
             )
             
-            if resume_status == 200:
-                structured_resumes.append(structured_resume)
+            if analysis_status == 200:
+                # Extract structured data from combined result
+                structured_resume = StructuredResume(
+                    candidate_name=combined_result.candidate_name,
+                    skills=combined_result.skills,
+                    experience=combined_result.experience,
+                    total_years_experience=combined_result.total_years_experience,
+                    projects=combined_result.projects,
+                    education=combined_result.education,
+                    certifications=combined_result.certifications,
+                    raw_text=resume_text
+                )
+                
+                skill_match = SkillMatchResult(
+                    matched_mandatory_skills=combined_result.matched_mandatory_skills,
+                    matched_preferred_skills=combined_result.matched_preferred_skills,
+                    missing_mandatory_skills=combined_result.missing_mandatory_skills,
+                    missing_preferred_skills=combined_result.missing_preferred_skills,
+                    skill_match_score=combined_result.skill_match_score,
+                    skill_explanation=combined_result.skill_explanation
+                )
+                
+                experience_eval = ExperienceEvaluationResult(
+                    total_relevant_experience_years=combined_result.total_relevant_experience_years,
+                    domain_relevance_score=combined_result.domain_relevance_score,
+                    role_alignment_score=combined_result.role_alignment_score,
+                    overqualification_flag=combined_result.overqualification_flag,
+                    irrelevant_experience_penalty=combined_result.irrelevant_experience_penalty,
+                    experience_explanation=combined_result.experience_explanation
+                )
+                
+                candidate_score = CandidateScore(
+                    skills_score=combined_result.skills_score,
+                    experience_score=combined_result.experience_score,
+                    role_alignment_score=combined_result.role_alignment_score,
+                    education_score=combined_result.education_score,
+                    weighted_total_score=combined_result.weighted_total_score,
+                    scoring_explanation=f"Skills: {combined_result.skills_score:.1f}%, Experience: {combined_result.experience_score:.1f}%, Role: {combined_result.role_alignment_score:.1f}%, Education: {combined_result.education_score:.1f}%"
+                )
+                
+                candidate_explanation = CandidateExplanation(
+                    rank_position=0,  # Will be set during ranking
+                    overall_match_score=combined_result.weighted_total_score,
+                    strengths=combined_result.strengths,
+                    gaps=combined_result.gaps,
+                    missing_requirements=combined_result.missing_requirements,
+                    risk_flags=combined_result.risk_flags,
+                    reasoning=combined_result.reasoning
+                )
+                
                 intermediate_outputs["resume_parsing"][f"resume_{idx}"] = {
                     "status": "success",
-                    "candidate_name": structured_resume.candidate_name,
-                    "skills_count": len(structured_resume.skills),
-                    "experience_count": len(structured_resume.experience)
+                    "candidate_name": structured_resume.candidate_name
                 }
-            else:
-                intermediate_outputs["resume_parsing"][f"resume_{idx}"] = {
-                    "status": "error",
-                    "error": "Failed to parse resume"
-                }
-        
-        if not structured_resumes:
-            error_response = ResumeScreeningResponse(
-                ranked_candidates=[],
-                summary=ScreeningSummary(
-                    top_3_candidates=[],
-                    common_gaps_observed=["No valid resumes could be parsed"],
-                    hiring_risks=["Resume parsing failed"],
-                    overall_statistics={}
-                ),
-                scoring_weights_used=request.scoring_weights,
-                processing_metadata=intermediate_outputs
-            )
-            return error_response, 400
-        
-        # Step 3: Evaluate each resume
-        ranked_data = []
-        
-        for idx, structured_resume in enumerate(structured_resumes):
-            try:
-                # 3a. Match skills
-                skill_match, skill_status = await match_skills(
-                    structured_jd=structured_jd,
-                    structured_resume=structured_resume,
-                    handler=handler
-                )
-                
                 intermediate_outputs["skill_matching"][f"resume_{idx}"] = {
-                    "status": "success" if skill_status == 200 else "error",
-                    "skill_match_score": skill_match.skill_match_score if skill_status == 200 else 0.0
+                    "status": "success",
+                    "skill_match_score": skill_match.skill_match_score
                 }
-                
-                # 3b. Evaluate experience
-                experience_eval, exp_status = await evaluate_experience(
-                    structured_jd=structured_jd,
-                    structured_resume=structured_resume,
-                    handler=handler
-                )
-                
                 intermediate_outputs["experience_evaluation"][f"resume_{idx}"] = {
-                    "status": "success" if exp_status == 200 else "error",
-                    "domain_relevance": experience_eval.domain_relevance_score if exp_status == 200 else 0.0
+                    "status": "success",
+                    "domain_relevance": experience_eval.domain_relevance_score
                 }
-                
-                # 3c. Calculate scores
-                candidate_score, candidate_explanation, score_status = await calculate_candidate_score(
-                    skill_match=skill_match,
-                    experience_eval=experience_eval,
-                    structured_resume=structured_resume,
-                    structured_jd=structured_jd,
-                    scoring_weights=request.scoring_weights,
-                    handler=handler
-                )
-                
                 intermediate_outputs["scoring"][f"resume_{idx}"] = {
-                    "status": "success" if score_status == 200 else "error",
-                    "overall_score": candidate_score.weighted_total_score if score_status == 200 else 0.0
+                    "status": "success",
+                    "overall_score": candidate_score.weighted_total_score
                 }
                 
-                # Store for ranking
                 ranked_data.append((
                     structured_resume,
                     candidate_score,
@@ -221,14 +221,11 @@ async def orchestrate_resume_screening(
                     skill_match,
                     experience_eval
                 ))
-                
-            except Exception as e:
-                # Handle failures gracefully - continue with other resumes
-                intermediate_outputs["scoring"][f"resume_{idx}"] = {
+            else:
+                intermediate_outputs["resume_parsing"][f"resume_{idx}"] = {
                     "status": "error",
-                    "error": str(e)
+                    "error": "Failed to analyze resume"
                 }
-                continue
         
         if not ranked_data:
             error_response = ResumeScreeningResponse(
