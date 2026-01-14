@@ -112,45 +112,12 @@ class CandidateExplanation(BaseModel):
 
 # Combined Analysis Result (single API call output)
 class CombinedAnalysisResult(BaseModel):
-    """Combined result from single LLM call - includes parsing, matching, evaluation, scoring"""
-    # Resume parsing fields
-    candidate_name: Optional[str] = None
-    skills: List[str]
-    experience: List[Dict[str, Any]]
-    total_years_experience: float
-    projects: Optional[List[Dict[str, Any]]] = None
-    education: Optional[List[Dict[str, Any]]] = None
-    certifications: Optional[List[str]] = None
-    
-    # Skill matching fields
-    matched_mandatory_skills: List[str]
-    matched_preferred_skills: List[str]
-    missing_mandatory_skills: List[str]
-    missing_preferred_skills: List[str]
-    skill_match_score: float
-    skill_explanation: str
-    
-    # Experience evaluation fields
-    total_relevant_experience_years: float
-    domain_relevance_score: float
-    role_alignment_score: float
-    overqualification_flag: bool
-    irrelevant_experience_penalty: float
-    experience_explanation: str
-    
-    # Scoring fields
-    skills_score: float
-    experience_score: float
-    role_alignment_score: float
-    education_score: float
-    weighted_total_score: float
-    
-    # Explanation fields
-    strengths: List[str]
-    gaps: List[str]
-    missing_requirements: List[str]
-    risk_flags: List[str]
-    reasoning: str
+    """Combined result from single LLM call - uses existing agent schemas"""
+    structured_resume: StructuredResume
+    skill_match: SkillMatchResult
+    experience_eval: ExperienceEvaluationResult
+    candidate_score: CandidateScore
+    candidate_explanation: CandidateExplanation
 
 
 # Ranked Candidate Result

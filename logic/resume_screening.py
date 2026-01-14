@@ -148,54 +148,14 @@ async def orchestrate_resume_screening(
             )
             
             if analysis_status == 200:
-                # Extract structured data from combined result
-                structured_resume = StructuredResume(
-                    candidate_name=combined_result.candidate_name,
-                    skills=combined_result.skills,
-                    experience=combined_result.experience,
-                    total_years_experience=combined_result.total_years_experience,
-                    projects=combined_result.projects,
-                    education=combined_result.education,
-                    certifications=combined_result.certifications,
-                    raw_text=resume_text
-                )
+                # Use nested schemas directly from combined result
+                structured_resume = combined_result.structured_resume
+                structured_resume.raw_text = resume_text  # Ensure raw_text is set
                 
-                skill_match = SkillMatchResult(
-                    matched_mandatory_skills=combined_result.matched_mandatory_skills,
-                    matched_preferred_skills=combined_result.matched_preferred_skills,
-                    missing_mandatory_skills=combined_result.missing_mandatory_skills,
-                    missing_preferred_skills=combined_result.missing_preferred_skills,
-                    skill_match_score=combined_result.skill_match_score,
-                    skill_explanation=combined_result.skill_explanation
-                )
-                
-                experience_eval = ExperienceEvaluationResult(
-                    total_relevant_experience_years=combined_result.total_relevant_experience_years,
-                    domain_relevance_score=combined_result.domain_relevance_score,
-                    role_alignment_score=combined_result.role_alignment_score,
-                    overqualification_flag=combined_result.overqualification_flag,
-                    irrelevant_experience_penalty=combined_result.irrelevant_experience_penalty,
-                    experience_explanation=combined_result.experience_explanation
-                )
-                
-                candidate_score = CandidateScore(
-                    skills_score=combined_result.skills_score,
-                    experience_score=combined_result.experience_score,
-                    role_alignment_score=combined_result.role_alignment_score,
-                    education_score=combined_result.education_score,
-                    weighted_total_score=combined_result.weighted_total_score,
-                    scoring_explanation=f"Skills: {combined_result.skills_score:.1f}%, Experience: {combined_result.experience_score:.1f}%, Role: {combined_result.role_alignment_score:.1f}%, Education: {combined_result.education_score:.1f}%"
-                )
-                
-                candidate_explanation = CandidateExplanation(
-                    rank_position=0,  # Will be set during ranking
-                    overall_match_score=combined_result.weighted_total_score,
-                    strengths=combined_result.strengths,
-                    gaps=combined_result.gaps,
-                    missing_requirements=combined_result.missing_requirements,
-                    risk_flags=combined_result.risk_flags,
-                    reasoning=combined_result.reasoning
-                )
+                skill_match = combined_result.skill_match
+                experience_eval = combined_result.experience_eval
+                candidate_score = combined_result.candidate_score
+                candidate_explanation = combined_result.candidate_explanation
                 
                 intermediate_outputs["resume_parsing"][f"resume_{idx}"] = {
                     "status": "success",
@@ -263,7 +223,7 @@ async def orchestrate_resume_screening(
             summary=summary,
             scoring_weights_used=request.scoring_weights,
             processing_metadata={
-                "total_resumes_processed": len(structured_resumes),
+                "total_resumes_processed": len(request.resumes),
                 "total_candidates_ranked": len(ranked_candidates),
                 "intermediate_outputs": intermediate_outputs
             }

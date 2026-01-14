@@ -77,6 +77,7 @@ class LLMHandler:
         """
         try:
             from langchain_core.output_parsers import PydanticOutputParser
+            import re
             
             parser = PydanticOutputParser(pydantic_object=response_schema)
             format_instructions = parser.get_format_instructions()
@@ -105,7 +106,22 @@ class LLMHandler:
                     if json_end > json_start:
                         content = content[json_start:json_end].strip()
                 
-                parsed = parser.parse(content)
+                # Clean up invalid characters and fix common JSON issues
+                content = self._clean_json_content(content)
+                
+                # Try parsing with Pydantic parser first
+                try:
+                    parsed = parser.parse(content)
+                except Exception:
+                    # Fallback: try direct JSON parsing
+                    try:
+                        json_data = json.loads(content)
+                        parsed = response_schema(**json_data)
+                    except json.JSONDecodeError as e:
+                        # Try to fix common JSON issues
+                        fixed_content = self._fix_json_errors(content)
+                        json_data = json.loads(fixed_content)
+                        parsed = response_schema(**json_data)
             else:
                 parsed = response_schema(**json.loads(str(content)))
             
@@ -113,6 +129,28 @@ class LLMHandler:
             
         except Exception as e:
             raise Exception(f"LLM structured parsing error: {str(e)}")
+    
+    def _clean_json_content(self, content: str) -> str:
+        """Clean JSON content by removing invalid characters"""
+        import re
+        # Remove non-printable characters except newlines and tabs
+        content = re.sub(r'[^\x20-\x7E\n\t]', '', content)
+        # Remove trailing commas before closing brackets/braces
+        content = re.sub(r',(\s*[}\]])', r'\1', content)
+        return content.strip()
+    
+    def _fix_json_errors(self, content: str) -> str:
+        """Fix common JSON parsing errors"""
+        import re
+        # Remove invalid characters at end of arrays/objects
+        content = re.sub(r'([\]}])\s*[^\s\]}]+(\s*[\]}])', r'\1\2', content)
+        # Fix trailing commas
+        content = re.sub(r',(\s*[}\]])', r'\1', content)
+        # Remove any text after the last valid JSON bracket/brace
+        last_brace = max(content.rfind('}'), content.rfind(']'))
+        if last_brace > 0:
+            content = content[:last_brace + 1]
+        return content
     
     async def invoke_text(
         self,
