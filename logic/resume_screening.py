@@ -1,7 +1,6 @@
 """Resume Screening Orchestrator - Coordinates all sub-agents"""
 from typing import List, Tuple, Dict, Any
-import os
-from dotenv import load_dotenv
+from sqlalchemy.orm import Session
 from schema.resume_screening import (
     ResumeScreeningRequest, ResumeScreeningResponse,
     StructuredJD, StructuredResume, SkillMatchResult,
@@ -16,11 +15,10 @@ from logic.experience_evaluator import evaluate_experience
 from logic.scoring_ranker import calculate_candidate_score, rank_candidates
 from logic.utils import get_traceback_string
 
-load_dotenv()
 
-
-def orchestrate_resume_screening(
-    request: ResumeScreeningRequest
+async def orchestrate_resume_screening(
+    request: ResumeScreeningRequest,
+    db: Session
 ) -> Tuple[ResumeScreeningResponse, int]:
     """
     Main orchestrator function that coordinates all sub-agents.
@@ -39,22 +37,6 @@ def orchestrate_resume_screening(
         Tuple of (ResumeScreeningResponse, status_code)
     """
     try:
-        # Get OpenAI API key (from request or .env)
-        api_key = request.openai_key or os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            error_response = ResumeScreeningResponse(
-                ranked_candidates=[],
-                summary=ScreeningSummary(
-                    top_3_candidates=[],
-                    common_gaps_observed=["OpenAI API key is required"],
-                    hiring_risks=["Configuration error"],
-                    overall_statistics={}
-                ),
-                scoring_weights_used=request.scoring_weights or {},
-                processing_metadata={"error": "OpenAI API key not provided"}
-            )
-            return error_response, 400
-        
         # Track intermediate outputs for debugging/explainability
         intermediate_outputs = {
             "jd_parsing": {},
@@ -101,10 +83,9 @@ def orchestrate_resume_screening(
             )
             return error_response, 400
         
-        structured_jd, jd_status = analyze_jd(
+        structured_jd, jd_status = await analyze_jd(
             jd_text=jd_text,
-            api_key=api_key,
-            model=request.model
+            db=db
         )
         
         if jd_status != 200:
@@ -153,11 +134,10 @@ def orchestrate_resume_screening(
                 }
                 continue  # Skip resume with parsing error
             
-            structured_resume, resume_status = parse_resume(
+            structured_resume, resume_status = await parse_resume(
                 resume_text=resume_text,
-                candidate_name=resume_input.candidate_name,
-                api_key=api_key,
-                model=request.model
+                db=db,
+                candidate_name=resume_input.candidate_name
             )
             
             if resume_status == 200:
@@ -194,11 +174,10 @@ def orchestrate_resume_screening(
         for idx, structured_resume in enumerate(structured_resumes):
             try:
                 # 3a. Match skills
-                skill_match, skill_status = match_skills(
+                skill_match, skill_status = await match_skills(
                     structured_jd=structured_jd,
                     structured_resume=structured_resume,
-                    api_key=api_key,
-                    model=request.model
+                    db=db
                 )
                 
                 intermediate_outputs["skill_matching"][f"resume_{idx}"] = {
@@ -207,11 +186,10 @@ def orchestrate_resume_screening(
                 }
                 
                 # 3b. Evaluate experience
-                experience_eval, exp_status = evaluate_experience(
+                experience_eval, exp_status = await evaluate_experience(
                     structured_jd=structured_jd,
                     structured_resume=structured_resume,
-                    api_key=api_key,
-                    model=request.model
+                    db=db
                 )
                 
                 intermediate_outputs["experience_evaluation"][f"resume_{idx}"] = {
@@ -220,14 +198,13 @@ def orchestrate_resume_screening(
                 }
                 
                 # 3c. Calculate scores
-                candidate_score, candidate_explanation, score_status = calculate_candidate_score(
+                candidate_score, candidate_explanation, score_status = await calculate_candidate_score(
                     skill_match=skill_match,
                     experience_eval=experience_eval,
                     structured_resume=structured_resume,
                     structured_jd=structured_jd,
                     scoring_weights=request.scoring_weights,
-                    api_key=api_key,
-                    model=request.model
+                    db=db
                 )
                 
                 intermediate_outputs["scoring"][f"resume_{idx}"] = {
@@ -267,11 +244,10 @@ def orchestrate_resume_screening(
             return error_response, 400
         
         # Step 4: Rank candidates
-        ranked_candidates, summary, rank_status = rank_candidates(
+        ranked_candidates, summary, rank_status = await rank_candidates(
             ranked_data=ranked_data,
             structured_jd=structured_jd,
-            api_key=api_key,
-            model=request.model
+            db=db
         )
         
         if rank_status != 200:

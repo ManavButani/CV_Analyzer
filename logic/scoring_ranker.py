@@ -5,17 +5,17 @@ from schema.resume_screening import (
     RankedCandidate, ScreeningSummary
 )
 from typing import List, Dict, Tuple
-from openai import OpenAI
+from sqlalchemy.orm import Session
+from logic.llm_handler import LLMHandler
 
 
-def calculate_candidate_score(
+async def calculate_candidate_score(
     skill_match: SkillMatchResult,
     experience_eval: ExperienceEvaluationResult,
     structured_resume: StructuredResume,
     structured_jd: StructuredJD,
     scoring_weights: Dict[str, float],
-    api_key: str,
-    model: str = "gpt-4o"
+    db: Session
 ) -> Tuple[CandidateScore, CandidateExplanation, int]:
     """
     Calculate final score and generate explanation for a candidate.
@@ -70,7 +70,7 @@ def calculate_candidate_score(
         
         # Generate explanation using AI
         try:
-            client = OpenAI(api_key=api_key)
+            handler = LLMHandler(db)
             
             explanation_prompt = f"""
             Generate a comprehensive explanation for this candidate's ranking.
@@ -100,16 +100,11 @@ def calculate_candidate_score(
             Format as clear bullet points.
             """
             
-            completion = client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": "You are an expert HR analyst providing candidate evaluation explanations."},
-                    {"role": "user", "content": explanation_prompt}
-                ],
+            explanation_text, _ = await handler.invoke_text(
+                prompt=explanation_prompt,
+                system_prompt="You are an expert HR analyst providing candidate evaluation explanations.",
                 temperature=0.3
             )
-            
-            explanation_text = completion.choices[0].message.content
             
             # Parse explanation into structured format (simplified)
             strengths = []
@@ -195,11 +190,10 @@ def calculate_candidate_score(
         return error_score, error_explanation, 400
 
 
-def rank_candidates(
+async def rank_candidates(
     ranked_data: List[Tuple[StructuredResume, CandidateScore, CandidateExplanation, SkillMatchResult, ExperienceEvaluationResult]],
     structured_jd: StructuredJD,
-    api_key: str,
-    model: str = "gpt-4o"
+    db: Session
 ) -> Tuple[List[RankedCandidate], ScreeningSummary, int]:
     """
     Rank candidates and generate final summary.
@@ -237,7 +231,7 @@ def rank_candidates(
             ranked_candidates.append(ranked_candidate)
         
         # Generate summary
-        summary = generate_summary(ranked_candidates, structured_jd, api_key, model)
+        summary = await generate_summary(ranked_candidates, structured_jd, db)
         
         return ranked_candidates, summary, 200
         
@@ -252,11 +246,10 @@ def rank_candidates(
         return [], error_summary, 400
 
 
-def generate_summary(
+async def generate_summary(
     ranked_candidates: List[RankedCandidate],
     structured_jd: StructuredJD,
-    api_key: str,
-    model: str = "gpt-4o"
+    db: Session
 ) -> ScreeningSummary:
     """Generate final summary of the screening process"""
     try:
@@ -280,7 +273,7 @@ def generate_summary(
         
         # Collect common gaps and risks using AI
         try:
-            client = OpenAI(api_key=api_key)
+            handler = LLMHandler(db)
             
             gaps_text = "\n".join([
                 f"- {gap}" for candidate in ranked_candidates[:5]
@@ -308,16 +301,11 @@ def generate_summary(
             Format as clear bullet points.
             """
             
-            completion = client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": "You are an expert HR analyst providing hiring insights."},
-                    {"role": "user", "content": summary_prompt}
-                ],
+            summary_text, _ = await handler.invoke_text(
+                prompt=summary_prompt,
+                system_prompt="You are an expert HR analyst providing hiring insights.",
                 temperature=0.3
             )
-            
-            summary_text = completion.choices[0].message.content
             
             # Parse summary (simplified)
             common_gaps = []

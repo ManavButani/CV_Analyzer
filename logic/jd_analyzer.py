@@ -1,13 +1,13 @@
 """JD Analyzer Agent - Extracts structured information from Job Description"""
-from openai import OpenAI
 from schema.resume_screening import StructuredJD
 from typing import Tuple
+from sqlalchemy.orm import Session
+from logic.llm_handler import LLMHandler
 
 
-def analyze_jd(
+async def analyze_jd(
     jd_text: str,
-    api_key: str,
-    model: str = "gpt-4o"
+    db: Session
 ) -> Tuple[StructuredJD, int]:
     """
     Analyze Job Description and extract structured information.
@@ -16,9 +16,9 @@ def analyze_jd(
         Tuple of (StructuredJD, status_code)
     """
     try:
-        client = OpenAI(api_key=api_key)
+        handler = LLMHandler(db)
         
-        prompt = """
+        system_prompt = """
         Analyze the following Job Description and extract structured information.
         
         Extract:
@@ -38,17 +38,14 @@ def analyze_jd(
         use null or empty lists as appropriate.
         """
         
-        completion = client.beta.chat.completions.parse(
-            model=model,
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": jd_text}
-            ],
-            response_format=StructuredJD,
+        structured_jd, status = await handler.invoke_structured(
+            prompt="Analyze this job description:",
+            system_prompt=system_prompt,
+            response_schema=StructuredJD,
+            user_content=jd_text
         )
         
-        structured_jd = completion.choices[0].message.parsed
-        return structured_jd, 200
+        return structured_jd, status
         
     except Exception as e:
         # Return error with partial structure

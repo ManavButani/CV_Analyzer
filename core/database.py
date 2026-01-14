@@ -21,3 +21,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+# Initialize database tables
+def init_db():
+    """Create all database tables"""
+    from model import user, llm_provider
+    Base.metadata.create_all(bind=engine)

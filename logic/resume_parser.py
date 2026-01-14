@@ -1,14 +1,14 @@
 """Resume Parser Agent - Converts resumes into structured data"""
-from openai import OpenAI
 from schema.resume_screening import StructuredResume
 from typing import Tuple
+from sqlalchemy.orm import Session
+from logic.llm_handler import LLMHandler
 
 
-def parse_resume(
+async def parse_resume(
     resume_text: str,
-    candidate_name: str = None,
-    api_key: str = None,
-    model: str = "gpt-4o"
+    db: Session,
+    candidate_name: str = None
 ) -> Tuple[StructuredResume, int]:
     """
     Parse resume and extract structured information.
@@ -17,9 +17,9 @@ def parse_resume(
         Tuple of (StructuredResume, status_code)
     """
     try:
-        client = OpenAI(api_key=api_key)
+        handler = LLMHandler(db)
         
-        prompt = """
+        system_prompt = """
         Parse the following resume and extract structured information.
         
         Extract:
@@ -46,22 +46,19 @@ def parse_resume(
         if candidate_name:
             user_content = f"Candidate Name (if not in resume): {candidate_name}\n\n{resume_text}"
         
-        completion = client.beta.chat.completions.parse(
-            model=model,
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": user_content}
-            ],
-            response_format=StructuredResume,
+        structured_resume, status = await handler.invoke_structured(
+            prompt="Parse this resume:",
+            system_prompt=system_prompt,
+            response_schema=StructuredResume,
+            user_content=user_content
         )
         
-        structured_resume = completion.choices[0].message.parsed
         # Ensure raw_text is preserved
         structured_resume.raw_text = resume_text
         if candidate_name and not structured_resume.candidate_name:
             structured_resume.candidate_name = candidate_name
             
-        return structured_resume, 200
+        return structured_resume, status
         
     except Exception as e:
         # Return error with minimal structure

@@ -28,8 +28,6 @@ class ResumeScreeningRequest(BaseModel):
     """Main request for resume screening"""
     jd: JDInput
     resumes: List[ResumeInput]
-    openai_key: Optional[str] = None  # Optional, can use OPENAI_API_KEY from .env
-    model: Optional[str] = "gpt-4o"
     scoring_weights: Optional[Dict[str, float]] = Field(
         default={
             "skills_match": 0.40,

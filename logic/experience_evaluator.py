@@ -1,14 +1,14 @@
 """Experience Evaluation Agent - Assesses experience relevance"""
-from openai import OpenAI
 from schema.resume_screening import StructuredJD, StructuredResume, ExperienceEvaluationResult
 from typing import Tuple
+from sqlalchemy.orm import Session
+from logic.llm_handler import LLMHandler
 
 
-def evaluate_experience(
+async def evaluate_experience(
     structured_jd: StructuredJD,
     structured_resume: StructuredResume,
-    api_key: str,
-    model: str = "gpt-4o"
+    db: Session
 ) -> Tuple[ExperienceEvaluationResult, int]:
     """
     Evaluate candidate's experience against JD requirements.
@@ -17,20 +17,25 @@ def evaluate_experience(
         Tuple of (ExperienceEvaluationResult, status_code)
     """
     try:
-        client = OpenAI(api_key=api_key)
+        handler = LLMHandler(db)
         
-        prompt = """
+        experience_details_str = "\n".join([
+            f"- {exp.get('role', 'Unknown')} at {exp.get('company', 'Unknown')} ({exp.get('years', 0)} years): {exp.get('description', 'No description')}"
+            for exp in structured_resume.experience
+        ]) if structured_resume.experience else "No experience listed"
+        
+        system_prompt = f"""
         Evaluate the candidate's work experience against the job description requirements.
         
         Job Description Requirements:
-        - Role: {role_title}
-        - Role Summary: {role_summary}
-        - Experience Requirements: {experience_requirements}
-        - Role Seniority: {role_seniority}
+        - Role: {structured_jd.role_title}
+        - Role Summary: {structured_jd.role_summary}
+        - Experience Requirements: {str(structured_jd.experience_requirements)}
+        - Role Seniority: {structured_jd.role_seniority}
         
         Candidate Experience:
-        - Total Years: {total_years}
-        - Experience Details: {experience_details}
+        - Total Years: {structured_resume.total_years_experience}
+        - Experience Details: {experience_details_str}
         
         Your task:
         1. Calculate total relevant experience years (only count experience relevant to the JD)
@@ -47,31 +52,13 @@ def evaluate_experience(
         - Consider role progression and career trajectory
         """
         
-        experience_details_str = "\n".join([
-            f"- {exp.get('role', 'Unknown')} at {exp.get('company', 'Unknown')} ({exp.get('years', 0)} years): {exp.get('description', 'No description')}"
-            for exp in structured_resume.experience
-        ]) if structured_resume.experience else "No experience listed"
-        
-        formatted_prompt = prompt.format(
-            role_title=structured_jd.role_title,
-            role_summary=structured_jd.role_summary,
-            experience_requirements=str(structured_jd.experience_requirements),
-            role_seniority=structured_jd.role_seniority,
-            total_years=structured_resume.total_years_experience,
-            experience_details=experience_details_str
+        experience_result, status = await handler.invoke_structured(
+            prompt="Please evaluate the candidate's experience.",
+            system_prompt=system_prompt,
+            response_schema=ExperienceEvaluationResult
         )
         
-        completion = client.beta.chat.completions.parse(
-            model=model,
-            messages=[
-                {"role": "system", "content": formatted_prompt},
-                {"role": "user", "content": "Please evaluate the candidate's experience."}
-            ],
-            response_format=ExperienceEvaluationResult,
-        )
-        
-        experience_result = completion.choices[0].message.parsed
-        return experience_result, 200
+        return experience_result, status
         
     except Exception as e:
         # Return error result

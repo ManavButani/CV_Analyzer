@@ -1,4 +1,1 @@
-from core.database import Base, engine
-from . import user
-
-Base.metadata.create_all(bind=engine)
+from . import user, llm_provider

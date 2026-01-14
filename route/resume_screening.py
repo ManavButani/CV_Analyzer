@@ -2,8 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form
 from fastapi.security import OAuth2PasswordBearer
 from typing import List, Optional
 import base64
-import os
-from dotenv import load_dotenv
+from sqlalchemy.orm import Session
 from schema.user import User
 from schema.resume_screening import (
     ResumeScreeningRequest, ResumeScreeningResponse,
@@ -12,8 +11,7 @@ from schema.resume_screening import (
 from logic.auth import get_current_active_user
 from logic.resume_screening import orchestrate_resume_screening
 from logic.utils import get_traceback_string
-
-load_dotenv()
+from core.database import get_db
 
 router = APIRouter()
 
@@ -21,7 +19,8 @@ router = APIRouter()
 @router.post("/screen/", response_model=ResumeScreeningResponse)
 async def screen_resumes(
     request: ResumeScreeningRequest,
-    current_user: User = Depends(get_current_active_user)
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
 ):
     """
     Main endpoint for resume screening.
@@ -29,22 +28,13 @@ async def screen_resumes(
     Accepts:
     - JD (as text or file)
     - Multiple resumes (as text or files)
-    - OpenAI API key (or uses OPENAI_API_KEY from .env if not provided)
-    - Optional model and scoring weights
+    - Optional scoring weights
     
     Returns ranked candidates with explanations.
+    Uses LLM provider configured in database.
     """
-    # Use .env key as fallback if not provided
-    if not request.openai_key or request.openai_key.strip() == "":
-        request.openai_key = os.getenv("OPENAI_API_KEY", "")
-        if not request.openai_key:
-            raise HTTPException(
-                status_code=400,
-                detail="OpenAI API key is required (provide in request or set OPENAI_API_KEY in .env)"
-            )
-    
     try:
-        response, status_code = orchestrate_resume_screening(request)
+        response, status_code = await orchestrate_resume_screening(request, db)
         
         if status_code != 200:
             error_msg = response.summary.common_gaps_observed[0] if response and response.summary.common_gaps_observed else 'Unknown error'
@@ -68,9 +58,8 @@ async def screen_resumes(
 async def screen_resumes_files(
     jd_file: UploadFile = File(...),
     resume_files: List[UploadFile] = File(...),
-    openai_key: str = Form(...),
-    model: Optional[str] = Form("gpt-4o"),
-    current_user: User = Depends(get_current_active_user)
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
 ):
     """
     Alternative endpoint that accepts file uploads directly.
@@ -118,13 +107,11 @@ async def screen_resumes_files(
         
         request = ResumeScreeningRequest(
             jd=jd_input,
-            resumes=resume_inputs,
-            openai_key=openai_key,
-            model=model
+            resumes=resume_inputs
         )
         
         # Process
-        response, status_code = orchestrate_resume_screening(request)
+        response, status_code = await orchestrate_resume_screening(request, db)
         
         if status_code != 200:
             error_msg = response.summary.common_gaps_observed[0] if response and response.summary.common_gaps_observed else 'Unknown error'

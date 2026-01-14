@@ -26,3 +26,4 @@ venv/
 *.webm
 **/__pycache__
 .env
+key
