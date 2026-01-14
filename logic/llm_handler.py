@@ -13,14 +13,19 @@ import json
 class LLMHandler:
     """Unified handler for multiple LLM providers using LangChain"""
     
-    def __init__(self, db: Session):
+    def __init__(self, db: Session, verbose: bool = False):
         self.db = db
         self.llm: Optional[BaseChatModel] = None
         self.provider_name: Optional[str] = None
+        self.verbose = verbose
+        self.reasoning_log: list = []  # Store model reasoning steps
         self._initialize()
     
     def _initialize(self):
         """Initialize LLM based on active provider in database"""
+        from langchain_core.callbacks import CallbackManager
+        from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+        
         provider = get_active_provider(self.db)
         
         if not provider:
@@ -30,17 +35,28 @@ class LLMHandler:
         api_key = provider.api_key
         model_name = provider.model_name or self._get_default_model(provider.provider_name)
         
+        # Setup callbacks for verbose mode
+        callbacks = []
+        if self.verbose:
+            callbacks.append(StreamingStdOutCallbackHandler())
+        
+        callback_manager = CallbackManager(callbacks) if callbacks else None
+        
         if provider.provider_name == "openai":
             self.llm = ChatOpenAI(
                 api_key=api_key,
                 model=model_name,
-                temperature=0.3
+                temperature=0.3,
+                callbacks=callback_manager,
+                verbose=self.verbose
             )
         elif provider.provider_name == "gemini":
             self.llm = ChatGoogleGenerativeAI(
                 google_api_key=api_key,
                 model=model_name,
-                temperature=0.3
+                temperature=0.3,
+                callbacks=callback_manager,
+                verbose=self.verbose
             )
         elif provider.provider_name == "grok":
             # Grok uses Anthropic API format (xAI uses similar structure)
@@ -48,7 +64,9 @@ class LLMHandler:
             self.llm = ChatAnthropic(
                 api_key=api_key,
                 model=model_name or "claude-3-opus-20240229",
-                temperature=0.3
+                temperature=0.3,
+                callbacks=callback_manager,
+                verbose=self.verbose
             )
         else:
             raise ValueError(f"Unsupported provider: {provider.provider_name}")
@@ -92,6 +110,15 @@ class LLMHandler:
             
             response = await self.llm.ainvoke(messages)
             content = response.content if hasattr(response, 'content') else str(response)
+            
+            # Log reasoning step
+            if self.verbose:
+                self.reasoning_log.append({
+                    "step": "invoke_structured",
+                    "prompt_preview": prompt[:100] + "..." if len(prompt) > 100 else prompt,
+                    "response_preview": content[:200] + "..." if len(content) > 200 else content,
+                    "model": self.provider_name
+                })
             
             # Parse structured output
             if isinstance(content, str):
@@ -184,3 +211,11 @@ class LLMHandler:
             "provider": self.provider_name,
             "model": self.llm.model_name if hasattr(self.llm, 'model_name') else "unknown"
         }
+    
+    def get_reasoning_log(self) -> list:
+        """Get accumulated reasoning log"""
+        return self.reasoning_log.copy()
+    
+    def clear_reasoning_log(self):
+        """Clear reasoning log"""
+        self.reasoning_log = []
