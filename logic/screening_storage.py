@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from model.screening_request import ScreeningRequestInDB
 from schema.resume_screening import ResumeScreeningResponse
 from logic.llm_handler import LLMHandler
+from logic.s3_storage import save_file_to_s3, save_text_to_s3
 
 
 UPLOADS_DIR = "uploads"
@@ -16,7 +17,7 @@ RESUME_SUBDIR = "resumes"
 
 
 def ensure_uploads_directory():
-    """Ensure uploads directory structure exists"""
+    """Ensure uploads directory structure exists (for local development)"""
     os.makedirs(UPLOADS_DIR, exist_ok=True)
     os.makedirs(os.path.join(UPLOADS_DIR, JD_SUBDIR), exist_ok=True)
     os.makedirs(os.path.join(UPLOADS_DIR, RESUME_SUBDIR), exist_ok=True)
@@ -24,7 +25,7 @@ def ensure_uploads_directory():
 
 def save_file_to_uploads(content: bytes, filename: str, subdirectory: str) -> str:
     """
-    Save file to uploads folder
+    Save file to S3 (production) or local uploads folder (development)
     
     Args:
         content: File content as bytes
@@ -32,14 +33,17 @@ def save_file_to_uploads(content: bytes, filename: str, subdirectory: str) -> st
         subdirectory: Subdirectory within uploads (jd or resumes)
     
     Returns:
-        Relative path to saved file
+        S3 key or relative path to saved file
     """
-    ensure_uploads_directory()
+    # Use S3 in production, local storage in development
+    result = save_file_to_s3(content, filename, subdirectory)
+    if result:
+        return result
     
-    # Generate unique filename to avoid conflicts
+    # Fallback to local storage
+    ensure_uploads_directory()
     file_ext = os.path.splitext(filename)[1] if filename else ".txt"
     unique_filename = f"{uuid.uuid4()}{file_ext}"
-    
     file_path = os.path.join(UPLOADS_DIR, subdirectory, unique_filename)
     
     with open(file_path, "wb") as f:
@@ -50,7 +54,7 @@ def save_file_to_uploads(content: bytes, filename: str, subdirectory: str) -> st
 
 def save_text_to_file(text: str, subdirectory: str, extension: str = ".txt") -> str:
     """
-    Save text content to file in uploads folder
+    Save text content to S3 (production) or local file (development)
     
     Args:
         text: Text content
@@ -58,10 +62,15 @@ def save_text_to_file(text: str, subdirectory: str, extension: str = ".txt") -> 
         extension: File extension
     
     Returns:
-        Relative path to saved file
+        S3 key or relative path to saved file
     """
-    ensure_uploads_directory()
+    # Use S3 in production, local storage in development
+    result = save_text_to_s3(text, subdirectory, extension)
+    if result:
+        return result
     
+    # Fallback to local storage
+    ensure_uploads_directory()
     unique_filename = f"{uuid.uuid4()}{extension}"
     file_path = os.path.join(UPLOADS_DIR, subdirectory, unique_filename)
     

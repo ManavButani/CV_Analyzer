@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (will use S3 in production)
+uploads/
+!uploads/.gitkeep
+
+# CDK
+cdk.out/
+cdk.context.json
+node_modules/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Outputs
+Outputs/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README*.md
+*.md
+
+# Deployment scripts
+deploy.sh
+deploy.ps1
