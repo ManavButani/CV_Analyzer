@@ -17,6 +17,7 @@ class LLMHandler:
         self.db = db
         self.llm: Optional[BaseChatModel] = None
         self.provider_name: Optional[str] = None
+        self.model_name: Optional[str] = None  # Store model name explicitly
         self.verbose = verbose
         self.reasoning_log: list = []  # Store model reasoning steps
         self._initialize()
@@ -34,6 +35,7 @@ class LLMHandler:
         self.provider_name = provider.provider_name
         api_key = provider.api_key
         model_name = provider.model_name or self._get_default_model(provider.provider_name)
+        self.model_name = model_name  # Store model name for later retrieval
         
         # Setup callbacks for verbose mode
         callbacks = []
@@ -209,7 +211,7 @@ class LLMHandler:
         """Get current provider information"""
         return {
             "provider": self.provider_name,
-            "model": self.llm.model_name if hasattr(self.llm, 'model_name') else "unknown"
+            "model": self.model_name or "unknown"
         }
     
     def get_reasoning_log(self) -> list:
