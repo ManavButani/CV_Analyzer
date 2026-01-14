@@ -137,17 +137,6 @@ async def orchestrate_resume_screening(
             "model_reasoning_step": len(handler.get_reasoning_log())
         }
         
-        # Create database record for this request
-        db_record = create_screening_record(
-            db=db,
-            request_id=request_id,
-            handler=handler,
-            jd_file_path=jd_file_path,
-            resume_file_paths=[],
-            jd_text_preview=jd_text[:500] if jd_text else None,
-            resume_count=len(request.resumes)
-        )
-        
         # Step 2 & 3: Analyze all resumes (single API call per resume)
         ranked_data = []
         
@@ -234,6 +223,16 @@ async def orchestrate_resume_screening(
                     "status": "error",
                     "error": "Failed to analyze resume"
                 }
+        
+        # Create database record after collecting all file paths
+        db_record = create_screening_record(
+            db=db,
+            request_id=request_id,
+            handler=handler,
+            jd_file_path=jd_file_path,
+            resume_file_paths=resume_file_paths,
+            resume_count=len(request.resumes)
+        )
         
         if not ranked_data:
             error_response = ResumeScreeningResponse(

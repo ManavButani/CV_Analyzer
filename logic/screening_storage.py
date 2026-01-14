@@ -77,7 +77,6 @@ def create_screening_record(
     handler: LLMHandler,
     jd_file_path: Optional[str] = None,
     resume_file_paths: Optional[List[str]] = None,
-    jd_text_preview: Optional[str] = None,
     resume_count: int = 0
 ) -> Optional[ScreeningRequestInDB]:
     """Create a new screening request record"""
@@ -91,7 +90,6 @@ def create_screening_record(
             model_name=provider_info.get("model", "unknown"),
             jd_file_path=jd_file_path,
             resume_files_paths=resume_file_paths or [],
-            jd_text_preview=jd_text_preview[:500] if jd_text_preview else None,
             resume_count=resume_count,
             processing_status="processing"
         )

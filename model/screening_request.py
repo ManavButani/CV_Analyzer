@@ -21,8 +21,7 @@ class ScreeningRequestInDB(Base):
     jd_file_path = Column(String, nullable=True)  # Path to JD file in uploads folder
     resume_files_paths = Column(JSON, nullable=True)  # List of resume file paths
     
-    # Input data (text content)
-    jd_text_preview = Column(Text, nullable=True)  # First 500 chars of JD
+    # Input data
     resume_count = Column(Integer, default=0)
     
     # Output and reasoning

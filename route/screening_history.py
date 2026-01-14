@@ -30,7 +30,6 @@ async def get_screening_history(
         "model_name": record.model_name,
         "jd_file_path": record.jd_file_path,
         "resume_files_paths": record.resume_files_paths,
-        "jd_text_preview": record.jd_text_preview,
         "resume_count": record.resume_count,
         "total_resumes_processed": record.total_resumes_processed,
         "total_candidates_ranked": record.total_candidates_ranked,
@@ -61,8 +60,7 @@ async def list_screening_history(
             "resume_count": record.resume_count,
             "total_resumes_processed": record.total_resumes_processed,
             "total_candidates_ranked": record.total_candidates_ranked,
-            "processing_status": record.processing_status,
-            "jd_text_preview": record.jd_text_preview
+            "processing_status": record.processing_status
         }
         for record in records
     ]
