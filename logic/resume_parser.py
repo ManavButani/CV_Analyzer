@@ -1,13 +1,12 @@
 """Resume Parser Agent - Converts resumes into structured data"""
 from schema.resume_screening import StructuredResume
 from typing import Tuple
-from sqlalchemy.orm import Session
 from logic.llm_handler import LLMHandler
 
 
 async def parse_resume(
     resume_text: str,
-    db: Session,
+    handler: LLMHandler,
     candidate_name: str = None
 ) -> Tuple[StructuredResume, int]:
     """
@@ -17,7 +16,6 @@ async def parse_resume(
         Tuple of (StructuredResume, status_code)
     """
     try:
-        handler = LLMHandler(db)
         
         system_prompt = """
         Parse the following resume and extract structured information.

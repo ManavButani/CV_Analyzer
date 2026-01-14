@@ -1,13 +1,12 @@
 """JD Analyzer Agent - Extracts structured information from Job Description"""
 from schema.resume_screening import StructuredJD
 from typing import Tuple
-from sqlalchemy.orm import Session
 from logic.llm_handler import LLMHandler
 
 
 async def analyze_jd(
     jd_text: str,
-    db: Session
+    handler: LLMHandler
 ) -> Tuple[StructuredJD, int]:
     """
     Analyze Job Description and extract structured information.
@@ -16,7 +15,6 @@ async def analyze_jd(
         Tuple of (StructuredJD, status_code)
     """
     try:
-        handler = LLMHandler(db)
         
         system_prompt = """
         Analyze the following Job Description and extract structured information.

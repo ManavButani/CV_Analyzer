@@ -1,14 +1,13 @@
 """Skill Matching Agent - Matches resume skills against JD skills"""
 from schema.resume_screening import StructuredJD, StructuredResume, SkillMatchResult
 from typing import Tuple
-from sqlalchemy.orm import Session
 from logic.llm_handler import LLMHandler
 
 
 async def match_skills(
     structured_jd: StructuredJD,
     structured_resume: StructuredResume,
-    db: Session
+    handler: LLMHandler
 ) -> Tuple[SkillMatchResult, int]:
     """
     Match resume skills against JD skills with synonym and partial match handling.
@@ -17,7 +16,6 @@ async def match_skills(
         Tuple of (SkillMatchResult, status_code)
     """
     try:
-        handler = LLMHandler(db)
         
         mandatory_skills_str = ", ".join(structured_jd.mandatory_skills) if structured_jd.mandatory_skills else "None"
         preferred_skills_str = ", ".join(structured_jd.preferred_skills) if structured_jd.preferred_skills else "None"

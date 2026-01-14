@@ -5,7 +5,6 @@ from schema.resume_screening import (
     RankedCandidate, ScreeningSummary
 )
 from typing import List, Dict, Tuple
-from sqlalchemy.orm import Session
 from logic.llm_handler import LLMHandler
 
 
@@ -15,7 +14,7 @@ async def calculate_candidate_score(
     structured_resume: StructuredResume,
     structured_jd: StructuredJD,
     scoring_weights: Dict[str, float],
-    db: Session
+    handler: LLMHandler
 ) -> Tuple[CandidateScore, CandidateExplanation, int]:
     """
     Calculate final score and generate explanation for a candidate.
@@ -70,8 +69,6 @@ async def calculate_candidate_score(
         
         # Generate explanation using AI
         try:
-            handler = LLMHandler(db)
-            
             explanation_prompt = f"""
             Generate a comprehensive explanation for this candidate's ranking.
             
@@ -193,7 +190,7 @@ async def calculate_candidate_score(
 async def rank_candidates(
     ranked_data: List[Tuple[StructuredResume, CandidateScore, CandidateExplanation, SkillMatchResult, ExperienceEvaluationResult]],
     structured_jd: StructuredJD,
-    db: Session
+    handler: LLMHandler
 ) -> Tuple[List[RankedCandidate], ScreeningSummary, int]:
     """
     Rank candidates and generate final summary.
@@ -231,7 +228,7 @@ async def rank_candidates(
             ranked_candidates.append(ranked_candidate)
         
         # Generate summary
-        summary = await generate_summary(ranked_candidates, structured_jd, db)
+        summary = await generate_summary(ranked_candidates, structured_jd, handler)
         
         return ranked_candidates, summary, 200
         
@@ -249,7 +246,7 @@ async def rank_candidates(
 async def generate_summary(
     ranked_candidates: List[RankedCandidate],
     structured_jd: StructuredJD,
-    db: Session
+    handler: LLMHandler
 ) -> ScreeningSummary:
     """Generate final summary of the screening process"""
     try:
@@ -273,8 +270,6 @@ async def generate_summary(
         
         # Collect common gaps and risks using AI
         try:
-            handler = LLMHandler(db)
-            
             gaps_text = "\n".join([
                 f"- {gap}" for candidate in ranked_candidates[:5]
                 for gap in candidate.explanation.gaps

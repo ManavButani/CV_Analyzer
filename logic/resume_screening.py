@@ -2,10 +2,7 @@
 from typing import List, Tuple, Dict, Any
 from sqlalchemy.orm import Session
 from schema.resume_screening import (
-    ResumeScreeningRequest, ResumeScreeningResponse,
-    StructuredJD, StructuredResume, SkillMatchResult,
-    ExperienceEvaluationResult, CandidateScore, CandidateExplanation,
-    RankedCandidate, ScreeningSummary
+    ResumeScreeningRequest, ResumeScreeningResponse, ScreeningSummary
 )
 from logic.file_parser import extract_text_from_file
 from logic.jd_analyzer import analyze_jd
@@ -14,6 +11,7 @@ from logic.skill_matcher import match_skills
 from logic.experience_evaluator import evaluate_experience
 from logic.scoring_ranker import calculate_candidate_score, rank_candidates
 from logic.utils import get_traceback_string
+from logic.llm_handler import LLMHandler
 
 
 async def orchestrate_resume_screening(
@@ -37,6 +35,9 @@ async def orchestrate_resume_screening(
         Tuple of (ResumeScreeningResponse, status_code)
     """
     try:
+        # Create single handler for entire request
+        handler = LLMHandler(db)
+        
         # Track intermediate outputs for debugging/explainability
         intermediate_outputs = {
             "jd_parsing": {},
@@ -85,7 +86,7 @@ async def orchestrate_resume_screening(
         
         structured_jd, jd_status = await analyze_jd(
             jd_text=jd_text,
-            db=db
+            handler=handler
         )
         
         if jd_status != 200:
@@ -136,7 +137,7 @@ async def orchestrate_resume_screening(
             
             structured_resume, resume_status = await parse_resume(
                 resume_text=resume_text,
-                db=db,
+                handler=handler,
                 candidate_name=resume_input.candidate_name
             )
             
@@ -177,7 +178,7 @@ async def orchestrate_resume_screening(
                 skill_match, skill_status = await match_skills(
                     structured_jd=structured_jd,
                     structured_resume=structured_resume,
-                    db=db
+                    handler=handler
                 )
                 
                 intermediate_outputs["skill_matching"][f"resume_{idx}"] = {
@@ -189,7 +190,7 @@ async def orchestrate_resume_screening(
                 experience_eval, exp_status = await evaluate_experience(
                     structured_jd=structured_jd,
                     structured_resume=structured_resume,
-                    db=db
+                    handler=handler
                 )
                 
                 intermediate_outputs["experience_evaluation"][f"resume_{idx}"] = {
@@ -204,7 +205,7 @@ async def orchestrate_resume_screening(
                     structured_resume=structured_resume,
                     structured_jd=structured_jd,
                     scoring_weights=request.scoring_weights,
-                    db=db
+                    handler=handler
                 )
                 
                 intermediate_outputs["scoring"][f"resume_{idx}"] = {
@@ -247,7 +248,7 @@ async def orchestrate_resume_screening(
         ranked_candidates, summary, rank_status = await rank_candidates(
             ranked_data=ranked_data,
             structured_jd=structured_jd,
-            db=db
+            handler=handler
         )
         
         if rank_status != 200:

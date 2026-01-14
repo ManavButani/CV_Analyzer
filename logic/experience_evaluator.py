@@ -1,14 +1,13 @@
 """Experience Evaluation Agent - Assesses experience relevance"""
 from schema.resume_screening import StructuredJD, StructuredResume, ExperienceEvaluationResult
 from typing import Tuple
-from sqlalchemy.orm import Session
 from logic.llm_handler import LLMHandler
 
 
 async def evaluate_experience(
     structured_jd: StructuredJD,
     structured_resume: StructuredResume,
-    db: Session
+    handler: LLMHandler
 ) -> Tuple[ExperienceEvaluationResult, int]:
     """
     Evaluate candidate's experience against JD requirements.
@@ -17,7 +16,6 @@ async def evaluate_experience(
         Tuple of (ExperienceEvaluationResult, status_code)
     """
     try:
-        handler = LLMHandler(db)
         
         experience_details_str = "\n".join([
             f"- {exp.get('role', 'Unknown')} at {exp.get('company', 'Unknown')} ({exp.get('years', 0)} years): {exp.get('description', 'No description')}"

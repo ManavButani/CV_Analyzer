@@ -1,0 +1,443 @@
+{
+  "ranked_candidates": [
+    {
+      "candidate_name": "Manav Butani",
+      "rank": 1,
+      "overall_score": 93.46199999999999,
+      "score_breakdown": {
+        "skills_score": 88.33,
+        "experience_score": 96.8,
+        "role_alignment_score": 95,
+        "education_score": 100,
+        "weighted_total_score": 93.46199999999999,
+        "scoring_explanation": "Skills: 88.3% (weight: 40%), Experience: 96.8% (weight: 35%), Role Alignment: 95.0% (weight: 15%), Education: 100.0% (weight: 10%)"
+      },
+      "explanation": {
+        "rank_position": 1,
+        "overall_match_score": 93.46199999999999,
+        "strengths": [
+          "**Robust Database Skills:** Extensive experience with both SQL (PostgreSQL, MySQL, SQL, SQLAlchemy, DuckDB) and NoSQL (MongoDB, VectorDB, ElasticSearch) databases.",
+          "**Performance Optimization:** Demonstrates expertise in parallel processing, distributed computing (Dask, Modin, Ray), asynchronous tasks (Celery), and caching (Elastic Cache).",
+          "**Integration & API Proficiency:** Extensive experience with various integration tools and APIs, including Airflow, Requests, BeautifulSoup, Playwright, Selenium, API Gateway, OpenAI, and HuggingFace.",
+          "**Quality Code Practices:** Implied proficiency in writing clean, efficient code, debugging, and troubleshooting, supported by tools like Pydantic and Prometheus.",
+          "**Relevant & Deep Experience:** All 3.83 years of experience are highly relevant to the Backend Python Developer role, showcasing impressive breadth and depth of technical skills.",
+          "**Versatile Profile:** Exposure to Machine Learning, Langchain, and Great-Expectations adds versatility, especially beneficial in data-intensive backend environments."
+        ],
+        "gaps": [
+          "**Preferred Skill - Specific GCP Services:** Lacks explicit experience with specific Google Cloud Platform services (BigQuery, Dataflow, Cloud Functions, Notebooks), though general cloud experience (AWS, Azure) and 'Google Authentication' hint at some GCP interaction.",
+          "**Experience - Years of Service:** Total experience of 3.83 years is marginally below the 4-year minimum requirement for a mid-level position."
+        ],
+        "missing_requirements": ["English communication skills"],
+        "risk_flags": [
+          "**Minor Experience Shortfall:** The candidate's total experience is slightly under the stated minimum years required for a mid-level role (3.83 years vs. 4 years). While minor, this is the primary factor preventing a higher experience score."
+        ],
+        "reasoning": "Here's a comprehensive explanation of Manav Butani's ranking:\n\n### 1. Strengths\n\n*   **Exceptional Skill Match:** Demonstrates a very strong alignment with mandatory skills (13 out of 14) and significant coverage of preferred skills (7 out of 9).\n*   **Core Python Expertise:** Possesses strong foundational knowledge in Python, Data Structures, and Algorithms.\n*   **Diverse Framework Experience:** Proficient with multiple Python web frameworks including FastAPI, Django, and Flask, indicating strong REST API development capabilities.\n*   **Robust Database Skills:** Extensive experience with both SQL (PostgreSQL, MySQL, SQL, SQLAlchemy, DuckDB) and NoSQL (MongoDB, VectorDB, ElasticSearch) databases.\n*   **Comprehensive Cloud & DevOps:** Strong hands-on experience with AWS (Lambda, EC2, S3, Cloud Watch), AzureBlob, DigitalOcean, Docker, Kubernetes, CI/CD, Jenkins, and GitHub Actions.\n*   **Performance Optimization:** Demonstrates expertise in parallel processing, distributed computing (Dask, Modin, Ray), asynchronous tasks (Celery), and caching (Elastic Cache).\n*   **Integration & API Proficiency:** Extensive experience with various integration tools and APIs, including Airflow, Requests, BeautifulSoup, Playwright, Selenium, API Gateway, OpenAI, and HuggingFace.\n*   **Quality Code Practices:** Implied proficiency in writing clean, efficient code, debugging, and troubleshooting, supported by tools like Pydantic and Prometheus.\n*   **Relevant & Deep Experience:** All 3.83 years of experience are highly relevant to the Backend Python Developer role, showcasing impressive breadth and depth of technical skills.\n*   **Versatile Profile:** Exposure to Machine Learning, Langchain, and Great-Expectations adds versatility, especially beneficial in data-intensive backend environments.\n*   **Perfect Education Score:** Achieved a perfect 100% in the education category, indicating a strong academic background or relevant certifications.\n\n### 2. Gaps/Missing Requirements\n\n*   **Mandatory Skill - English Communication:** The only missing mandatory skill is 'English communication skills,' which could not be assessed from the provided technical list.\n*   **Preferred Skill - Specific GCP Services:** Lacks explicit experience with specific Google Cloud Platform services (BigQuery, Dataflow, Cloud Functions, Notebooks), though general cloud experience (AWS, Azure) and 'Google Authentication' hint at some GCP interaction.\n*   **Preferred Skill - Specific Message Queues:** Missing explicit experience with specific message queue technologies like Pub/Sub, RabbitMQ, or Kafka, although 'Celery' implies familiarity with message-driven architectures.\n*   **Experience - Years of Service:** Total experience of 3.83 years is marginally below the 4-year minimum requirement for a mid-level position.\n\n### 3. Risk Flags\n\n*   **Minor Experience Shortfall:** The candidate's total experience is slightly under the stated minimum years required for a mid-level role (3.83 years vs. 4 years). While minor, this is the primary factor preventing a higher experience score.\n\n### 4. Overall Reasoning for the Score\n\nManav Butani achieved an outstanding overall score of 93.5/100, positioning them as a highly competitive candidate for the Backend Python Developer role. This high score is primarily driven by their exceptional **Skills Match (88.3/100)** and **Experience (96.8/100)**, complemented by a perfect **Education (100.0/100)** score.\n\nThe candidate demonstrates a remarkably comprehensive and highly relevant technical skill set, covering nearly all mandatory and a significant portion of preferred requirements. Their experience, while marginally below the minimum years for a mid-level role, is deep, diverse, and directly applicable, showcasing hands-on proficiency in core Python, web frameworks, databases, cloud platforms, DevOps, and performance optimization. The only notable mandatory gap is 'English communication skills,' which is an assessment limitation rather than a demonstrated deficiency. Minor gaps in specific GCP services and message queue technologies are largely offset by their strong general cloud and message-driven architecture experience. The slight shortfall in total years of experience is the main reason the score isn't even higher, but the breadth and depth of their technical expertise strongly mitigate this minor concern. Manav Butani presents as a very strong candidate with significant potential to excel in this role."
+      },
+      "structured_resume": {
+        "candidate_name": "Manav Butani",
+        "skills": [
+          "Python",
+          "Django",
+          "Flask",
+          "JavaScript",
+          "HTML",
+          "CSS",
+          "FastAPI",
+          "Microservices",
+          "SQL",
+          "Docker",
+          "Kubernetes",
+          "Jenkins",
+          "CI/CD",
+          "Git",
+          "Jira",
+          "Parallel Processing",
+          "LangChain",
+          "PostgreSQL",
+          "MySQL",
+          "MongoDB",
+          "Airflow",
+          "MinIo",
+          "Iceberg",
+          "Snowflake",
+          "RDS",
+          "S3",
+          "AzureBlob",
+          "Windows",
+          "Linux/UNIX",
+          "Mac",
+          "SQLAlchemy",
+          "Prometheus",
+          "Celery",
+          "ElasticSearch",
+          "Socket-IO",
+          "Alembic Migrations",
+          "AWS Lambda",
+          "DigitalOcean",
+          "Machine Learning",
+          "Great-Expectations",
+          "DuckDB",
+          "ReactJS",
+          "VectorDB",
+          "AI Chatbot",
+          "Image Processing",
+          "OpenAI",
+          "HuggingFace",
+          "Dask",
+          "Modin",
+          "Ray",
+          "Pandas",
+          "NumPy",
+          "GitHub Webhooks",
+          "BeautifulSoup",
+          "Requests",
+          "Playwright",
+          "Selenium",
+          "Pydantic",
+          "Render",
+          "Railway",
+          "Fly.io",
+          "GitHub Actions",
+          "Prompt Engineering",
+          "Natural Language Processing",
+          "Dynamic Scraping",
+          "Authentication Paradigm",
+          "Data Structures and Algorithms",
+          "Basic DevOps",
+          "AWS EC2",
+          "Elastic Cache",
+          "Cloud Watch",
+          "Google Authentication",
+          "Nvidia GPU Architecture",
+          "Klaviyo",
+          "Lakekeeper",
+          "Hive",
+          "Blob",
+          "Trino",
+          "Presto",
+          "Spark",
+          "k8s-proxy",
+          "API Gateway",
+          "WAF Shield",
+          "AWS Securities"
+        ],
+        "experience": [
+          {
+            "job_title": "Software Engineer",
+            "company_name": "Ashirwad Infotech",
+            "duration": "December 2023 - Present",
+            "description": "Hands-on technology: Docker, SQLAlchemy, SQL, Python (Data Structures and Algorithms), Flask, FastAPI, Prometheus, Dask, Modin, Ray, Celery, ElasticSearch, SocketIO, Jenkins, Alembic Migrations, AWS-Lamda, Langchain, s3-bucket, DigitalOcean, Machine Learning, Great-Expectations, DuckDB."
+          },
+          {
+            "job_title": "Software Engineer",
+            "company_name": "Crest Data Systems",
+            "duration": "Mar 2022 - Nov 2023",
+            "description": null
+          },
+          {
+            "job_title": "Full-stack Developer",
+            "company_name": "Raventechnolabs",
+            "duration": "Jun 2020 - Mar 2022",
+            "description": "Internship role focusing on Python development."
+          }
+        ],
+        "total_years_experience": 3.83,
+        "projects": [
+          {
+            "name": "GolfDaddy",
+            "description": "GolfDaddy is an online platform designed to help golf enthusiasts easily discover, compare, and book golf lessons with certified instructors. The website provides detailed coach profiles, transparent pricing, and user reviews to support informed decision-making. With a clean and intuitive interface, GolfDaddy simplifies the process of finding the right golf trainer based on skill level, location, and learning goals. The platform aims to make golf training more accessible and convenient for players of all ages, bringing together professional coaches and learners in one streamlined booking ecosystem. Functionality includes: Login Mechanism, ElasticCache and WAF Shield to avoid DDoS, Customer Feedback using Klaviyo, Pre-signed S3 URLs to make the upload faster, Multi-Core GPU Processing to make the simulation process parallel.",
+            "technologies": [
+              "Django",
+              "AWS EC2",
+              "Elastic Cache",
+              "Cloud Watch",
+              "Google Authentication",
+              "Nvidia GPU Architecture",
+              "Klaviyo",
+              "Parallel Processing"
+            ]
+          },
+          {
+            "name": "QueryBook",
+            "description": "QueryBook is a unified platform designed to manage, track, and optimise customer queries across multiple channels. It enables teams to organise conversations, automate responses, and improve communication efficiency using smart workflows. With a clean dashboard, users can monitor ticket statuses, assign tasks, and collaborate seamlessly. QueryBook aims to reduce response time, enhance customer satisfaction, and streamline support operations for businesses of all sizes. Its modern, user-friendly interface makes managing customer interactions simple and efficient. Functionality includes: Drag-Drop SQL Query Generation, Custom Metastore Integration (Lakekeeper, Hive), Custom Query Result Store Support (Blob, S3), Custom Engine Support (Trino, Presto, Spark), with an appropriate policy, buy and sell data, various quality checks to decide the pricing of data, Query Generation, Explanation, etc. Using OpenAI, k8s-proxy.",
+            "technologies": [
+              "FastAPI",
+              "SQLAlchemy",
+              "Docker",
+              "Prometheus",
+              "Celery",
+              "SQL",
+              "ElasticSearch",
+              "Socket-IO",
+              "Jenkins"
+            ]
+          },
+          {
+            "name": "Storewise - AI Chatbot",
+            "description": "Storewise is a seamless platform for managing a retail store's communications, tasks, and insights. Contributed to this project by handling its serverless architecture using AWS Lambda functions, API Gateway, and other serverless AWS services. Storewise also features an intelligent AI chatbot designed to assist with a wide range of functionalities, making it ideal for businesses aiming to streamline their operations. Its key features include real-time news integration, image generation, weather details, VCard generation, CSV generation, and image analysis. This system enhances store management through smart, conversational AI support.",
+            "technologies": [
+              "Python",
+              "Django",
+              "ReactJS",
+              "LangChain",
+              "VectorDB",
+              "AWS Lambda",
+              "AI Chatbot",
+              "Image Processing",
+              "PostgreSQL",
+              "S3"
+            ]
+          },
+          {
+            "name": "Dalli - 4",
+            "description": "Dalli-4 is an AI-powered image generator that transforms text prompts or photos into creative artwork within seconds. Whether you want a dreamy fantasy scene, a stylised portrait, or a creative wallpaper, Dalli-4 offers multiple art styles like anime, pop-art, watercolour, neon, and more. You can upload a photo or use a simple text prompt, and the app will generate unique, high-quality images using advanced AI models. It also includes tools for image-to-image transformation, background removal, and creative filters, so you can easily remix or enhance existing photos. Dalli-4 is designed to be user-friendly — no design skills needed — making it a good choice for artists, creators, or anyone exploring creative AI. Functionality includes: Home Interior Design Using Artificial Intelligence, Real and Reel Image Calculator, Artificial Intelligence as a Cloth Designer, Ghibali Image, Prompt to Video Generation, Face Swap, Prompt to Image, Image Enhancement.",
+            "technologies": ["OpenAI", "Langchain", "HuggingFace"]
+          },
+          {
+            "name": "SMCTrader – A Comprehensive Stock Market Analysis and Trading Platform",
+            "description": "Developed SMCTrader, an advanced stock market analysis and trading platform focusing on scalability, efficiency, and advanced functionality to cater to traders and investors. This platform was built to provide robust tools for analysing market trends, backtesting strategies, and managing risk in dynamic behaviour. Key Features Developed: Indicators Support (designed and implemented various technical indicators), Multiple Demat Account Integration (enabled seamless integration of multiple Demat accounts), Advanced Backtesting Tools (Fast-forwarding Simulation, Historical Backtesting), Strategy Builder (user-friendly interface for creating, testing, and deploying strategies), Risk-Reward Manager (tools for analysing risk-reward ratios), Potential Breakout Stocks Detection (algorithms to identify stocks with high breakout potential), Seasonal Historical Data Insights (tools to analyse seasonal patterns), Sector-wise Analysis (features to analyse stocks across sectors), Detection of Manipulated Stocks (algorithms to identify irregularities and potential manipulations), Market Sentiments Analysis (integrated sentiment analysis of news and social media data).",
+            "technologies": [
+              "Python",
+              "Django",
+              "Flask API",
+              "Docker",
+              "Kubernetes",
+              "Jenkins",
+              "GitHub Webhooks",
+              "Dask",
+              "Modin",
+              "Ray",
+              "Pandas",
+              "NumPy"
+            ]
+          },
+          {
+            "name": "Smart Scrapper",
+            "description": "AI agents can dynamically answer user-specific questions by extracting and interpreting details from a given website URL. The application focuses on in-depth content and leverages modern web scraping tools to provide tailored insights based on user prompts. Key Features Developed: Intelligent Question Answering (AI-powered system that answers user-defined questions by analysing content from a website's homepage), Seamless Website Analysis (platform automatically extracts and processes website content), Secure and Reliable Access (robust authentication mechanism using a secret key).",
+            "technologies": [
+              "Python",
+              "Django",
+              "Docker",
+              "Render",
+              "Railway",
+              "Fly.io",
+              "GitHub Actions",
+              "BeautifulSoup",
+              "Requests",
+              "Playwright",
+              "Selenium",
+              "Pydantic"
+            ]
+          }
+        ],
+        "education": null,
+        "certifications": null,
+        "raw_text": "Manav\n \nButani\n \nPython\n \nDeveloper\n \nProfessional\n \nSummary:\n \nFull-stack\n \nDeveloper\n \nwith\n \nover\n \n5+\n \nyears\n \nof\n \nexpertise\n \nin\n \ncreating\n \nstrong\n \nbackend\n \nsystems.\n \nI\n \nfocus\n \non\n \nbuilding\n \nscalable,\n \nfast,\n \nand\n \noptimised\n \nbackends,\n \ndoing\n \ndata\n \nengineering,\n \nand\n \nturning\n \nideas\n \ninto\n \neffective\n \nsolutions.\n \nI\n \ntackle\n \ntough\n \nproblems\n \nwith\n \ncreative\n \nsolutions,\n \nmixing\n \ntech\n \nskills\n \nwith\n \nfresh\n \nideas.\n \nI've\n \nworked\n \non\n \nend-to-end\n \napplications\n \nthat\n \nare\n \nefficient,\n \nscalable,\n \nand\n \neasy\n \nto\n \nuse,\n \nalways\n \naiming\n \nfor\n \nhigh-quality\n \nresults\n \nthat\n \nalign\n \nwith\n \nbusiness\n \ngoals.\n \nTechnical\ns :\n \n \nSr.\n \nNo\n \nDomain\n \nTechnology\n \n1.\n \nSkills\n \nPython,\n \nDjango,\n \nFlask,\n \nJavaScript,\n \nHTML,\n \nCSS,\n \nFastAPI,\n \nAWS\n \nServices\n \nand\n \nSecurities,\n \nMicroservices,\n \nSQL,\n \nDocker,\n \nKubernetes,\n \nJenkins,\n \nCI/CD,\n \nGit,\n \nJira,\n \nParallel\n \nProcessing,\n \nLangChain\n \n2.\n \nDatabase\n \nPostgreSQL,\n \nMySQL,\n \nMongoDB,\n \nAirflow,\n \nMinIo,\n \nIceberg,\n \nSnowflake,\n \nRDS,\n \nS3,\n \nAzureBlob\n \n3.\n \nOperating\n \nSystem\n \nWindows,\n \nLinux/UNIX,\n \nMac\n \nProjects\n \n1.\n \nGolfDaddy:\n \nGolfDaddy\n \nis\n \nan\n \nonline\n \nplatform\n \ndesigned\n \nto\n \nhelp\n \ngolf\n \nenthusiasts\n \neasily\n \ndiscover ,\n \ncompare,\n \nand\n \nbook\n \ngolf\n \nlessons\n \nwith\n \ncertified\n \ninstructors.\n \nThe\n \nwebsite\n \nprovides\n \ndetailed\n \ncoach\n \nprofiles,\n \ntransparent\n \npricing,\n \nand\n \nuser\n \nreviews\n \nto\n \nsupport\n \ninformed\n \ndecision-making.\n \nWith\n \na\n \nclean\n \nand\n \nintuitive\n \ninterface,\n \nGolfDaddy\n \nsimplifies\n \nthe\n \nprocess\n \nof\n \nfinding\n \nthe\n \nright\n \ngolf\n \ntrainer\n \nbased\n \non\n \nskill\n \nlevel,\n \nlocation,\n \nand\n \nlearning\n \ngoals.\n \nThe\n \nplatform\n \naims\n \nto\n \nmake\n \ngolf\n \ntraining\n \nmore\n \naccessible\n \nand\n \nconvenient\n \nfor\n \nplayers\n \nof\n \nall\n \nages.\n \nIt\n \nbrings\n \ntogether\n \nprofessional\n \ncoaches\n \nand\n \nlearners\n \nin\n \none\n \nstreamlined\n \nbooking\n \necosystem.\n \nFunctionality\n:\n \n1.\n \nLogin\n \nMechanism\n \n2.\n \nElasticCache\n \nand\n \nWAF\n \nShield\n \nto\n \navoid\n \nDDoS\n \n3.\n \nCustomer\n \nFeedback\n \nusing\n \nKlaviyo\n \n4.\n \nPre-signed\n \nS3\n \nURLs\n \nto\n \nmake\n \nthe\n \nupload\n \nfaster\n \n5.\n \nMulti-Core\n \nGPU\n \nProcessing\n \nto\n \nmake\n \nthe\n \nsimulation\n \nprocess\n \nparallel\n \nTechnology\n \nStack\n:\n \nDjango\n \n|\n \nAWS\n \nEC2\n \n|\n \nElastic\n \nCache|\n \nCloud\n \nWatch\n \n|\n \nGoogle\n \nAuthentication\n \n|\n \nNvidia\n \nGPU\n \nArchitecture\n \n|\n \nKlaviyo\n \n|\n \nParallel\n \nProcessing\n \n \n2.\n \nQueryBook\n \nQueryBook\n \nis\n \na\n \nunified\n \nplatform\n \ndesigned\n \nto\n \nmanage,\n \ntrack,\n \nand\n \noptimise\n \ncustomer\n \nqueries\n \nacross\n \n \n \nmultiple\n \nchannels.\n \nIt\n \nenables\n \nteams\n \nto\n \norganise\n \nconversations,\n \nautomate\n \nresponses,\n \nand\n \nimprove\n \ncommunication\n \nefficiency\n \nusing\n \nsmart\n \nworkflows.\n \nWith\n \na\n \nclean\n \ndashboard,\n \nusers\n \ncan\n \nmonitor\n \nticket\n \nstatuses,\n \nassign\n \ntasks,\n \nand\n \ncollaborate\n \nseamlessly .\n \nQueryBook\n \naims\n \nto\n \nreduce\n \nresponse\n \ntime,\n \nenhance\n \ncustomer\n \nsatisfaction,\n \nand\n \nstreamline\n \nsupport\n \noperations\n \nfor\n \nbusinesses\n \nof\n \nall\n \nsizes.\n \nIts\n \nmodern,\n \nuser-friendly\n \ninterface\n \nmakes\n \nmanaging\n \ncustomer\n \ninteractions\n \nsimple\n \nand\n \nefficient.\n \nTechnology\n \nStack:\n \nFastAPI,\n \nSQLAlchemy,\n \nDocker,\n \nPrometheus,\n \nCelery,\n \nSQL,\n \nElasticSearch,\n \nSocket-IO,\n \nJenkins\n \nFunctionality:\n \n1.\n \nDrag-Drop\n \nSQL\n \nQuery\n \nGeneration\n \n2.\n \nCustom\n \nMetastore\n \nIntegration(Lakekeeper,\n \nHive)\n \n3.\n \nCuston\n \nQuery\n \nResult\n \nStore\n \nSupport(Blob,\n \nS3)\n \n4.\n \nCustom\n \nEngine\n \nSupport(Trino,\n \nPresto,\n \nSpark)\n \n5.\n \nWith\n \nan\n \nappropriate\n \npolicy,\n \nbuy\n \nand\n \nsell\n \ndata\n \n6.\n \nVarious\n \nquality\n \nchecks\n \nto\n \ndecide\n \nthe\n \npricing\n \nof\n \ndata\n \n7.\n \nQuery\n \nGeneration,\n \nExplanation,\n \n...\n \nUsing\n \nOpenAI\n \n8.\n \nk8s-proxy\n \n3.\n \nStorewise\n \n-\n \nAI\n \nChatbot\n \nOverview:\n \nStorewise\n \nis\n \na\n \nseamless\n \nplatform\n \nfor\n \nmanaging\n \na\n \nretail\n \nstore's\n \ncommunications,\n \ntasks,\n \nand\n \ninsights.\n \nI\n \ncontributed\n \nto\n \nthis\n \nproject\n \nby\n \nhandling\n \nits\n \nserverless\n \narchitecture\n \nusing\n \nAWS\n \nLambda\n \nfunctions,\n \nAPI\n \nGateway,\n \nand\n \nother\n \nserverless\n \nAWS\n \nservices.\n \nStorewise\n \nalso\n \nfeatures\n \nan\n \nintelligent\n \nAI\n \nchatbot\n \ndesigned\n \nto\n \nassist\n \nwith\n \na\n \nwide\n \nrange\n \nof\n \nfunctionalities,\n \nmaking\n \nit\n \nideal\n \nfor\n \nbusinesses\n \naiming\n \nto\n \nstreamline\n \ntheir\n \noperations.\n \nIts\n \nkey\n \nfeatures\n \ninclude\n \nreal-time\n \nnews\n \nintegration,\n \nimage\n \ngeneration,\n \nweather\n \ndetails,\n \nVCard\n \ngeneration,\n \nCSV\n \ngeneration,\n \nand\n \nimage\n \nanalysis.\n \nRole\n \n:-\n \nFull\n \nStack\n \nDeveloper\n \n&\n \nDevOps\n \nEngineer\n \n \nTechnologies\n:-\n \nPython,\n \nDjango,\n \nReactJS,\n \nLangChain,\n \nVectorDB,\n \nAWS\n \nLambda,\n \nAI\n \nChatbot,\n \nImage\n \nProcessing,\n \nPostgreSQL,\n \nS3\n \nThis\n \nsystem\n \nenhances\n \nstore\n \nmanagement\n \nthrough\n \nsmart,\n \nconversational\n \nAI\n \nsupport\n \n4.\n \nDalli\n \n-\n \n4\n \nDalli-4\n \nis\n \nan\n \nAI-powered\n \nimage\n \ngenerator\n \nthat\n \ntransforms\n \ntext\n \nprompts\n \nor\n \nphotos\n \ninto\n \ncreative\n \nartwork\n \nwithin\n \nseconds.\n \nWhether\n \nyou\n \nwant\n \na\n \ndreamy\n \nfantasy\n \nscene,\n \na\n \nstylised\n \nportrait,\n \nor\n \na\n \ncreative\n \nwallpaper ,\n \nDalli-4\n \noffers\n \nmultiple\n \nart\n \nstyles\n \nlike\n \nanime,\n \npop-art,\n \nwatercolour ,\n \nneon,\n \nand\n \nmore.\n \nYou\n \ncan\n \nupload\n \na\n \nphoto\n \nor\n \nuse\n \na\n \nsimple\n \ntext\n \nprompt,\n \nand\n \nthe\n \napp\n \nwill\n \ngenerate\n \nunique,\n \nhigh-quality\n \nimages\n \nusing\n \nadvanced\n \nAI\n \nmodels.It\n \nalso\n \nincludes\n \ntools\n \nfor\n \nimage-to-image\n \ntransformation,\n \nbackground\n \nremoval,\n \nand\n \ncreative\n \nfilters,\n \nso\n \nyou\n \ncan\n \neasily\n \nremix\n \nor\n \nenhance\n \nexisting\n \nphotos.Dalli-4\n \nis\n \ndesigned\n \nto\n \nbe\n \nuser-friendly\n \n—\n \nno\n \ndesign\n \nskills\n \nneeded\n \n—\n \nmaking\n \nit\n \na\n \ngood\n \nchoice\n \nfor\n \nartists,\n \ncreators,\n \nor\n \nanyone\n \nexploring\n \ncreative\n \nAI.\n \n \nTechnology\n \nStack:\n \nOpenAI,\n \nLangchain,\n \nHuggingFace\n \n \n \nFunctionality:\n \n1.\n \nHome\n \nInterior\n \nDesign\n \nUsing\n \nArtificial\n \nIntelligence\n \n2.\n \nReal\n \nand\n \nReel\n \nImage\n \nCalculator\n \n3.\n \nArtificial\n \nIntelligence\n \nas\n \na\n \nCloth\n \nDesigner\n \n4.\n \nGhibali\n \nImage\n \n5.\n \nPrompt\n \nto\n \nVideo\n \nGeneration\n \n6.\n \nFace\n \nSwap\n \n7.\n \nPrompt\n \nto\n \nImage\n \n8.\n \nImage\n \nEnhancement\n \n5.\n \nSMCTrader\n \n–\n \nA\n \nComprehensive\n \nStock\n \nMarket\n \nAnalysis\n \nand\n \nTrading\n \nPlatform\n \nOverview\n:\n \nDeveloped\n \nSMCT rader\n,\n \nan\n \nadvanced\n \nstock\n \nmarket\n \nanalysis\n \nand\n \ntrading\n \nplatform\n \nfocusing\n \non\n \nscalability ,\n \nefficiency ,\n \nand\n \nadvanced\n \nfunctionality\n \nto\n \ncater\n \nto\n \ntraders\n \nand\n \ninvestors.\n \nThis\n \nplatform\n \nwas\n \nbuilt\n \nto\n \nprovide\n \nrobust\n \ntools\n \nfor\n \nanalysing\n \nmarket\n \ntrends,\n \nbacktesting\n \nstrategies,\n \nand\n \nmanaging\n \nrisk\n \nin\n \ndynamic\n \nbehaviour .\n \nRole\n:-\n \nSoftware\n \nEngineer\n \n \nAcquir ed\n \nSkills:-\n \nParallel\n \nComputing,\n \nData\n \nStructures\n \nand\n \nAlgorithms,\n \nBasic\n \nDevOps\n \nTechnologies\n:\n \n●\n \nFramework\n:\n \nPython,\n \nDjango,\n \nFlask\n \nAPI\n \n●\n \nDeployment\n:\n \nDocker ,\n \nKubernetes,\n \nJenkins,\n \nGitHub\n \nWebhooks\n \n●\n \nParallel\n \nComputing\n:\n \nDask,\n \nModin,\n \nRay,\n \nPandas,\n \nNumPy\n \nKey\n \nFeatur es\n \nDeveloped\n:\n \n1.\n \nIndicators\n \nSupport\n:\n \nDesigned\n \nand\n \nimplemented\n \nvarious\n \ntechnical\n \nindicators\n \nfor\n \ndetailed\n \nmarket\n \nanalysis,\n \nhelping\n \ntraders\n \nmake\n \ninformed\n \ndecisions.\n \n2.\n \nMultiple\n \nDemat\n \nAccount\n \nIntegration\n:\n \nEnabled\n \nseamless\n \nintegration\n \nof\n \nmultiple\n \nDemat\n \naccounts\n \nto\n \nprovide\n \nusers\n \nwith\n \na\n \nconsolidated\n \nview\n \nof\n \ntheir\n \nportfolio\n \nand\n \ntransactions.\n \n3.\n \nAdvanced\n \nBacktesting\n \nTools\n:\n \n○\n \nFast-forwarding\n \nSimulation\n:\n \nCreated\n \ntools\n \nto\n \nsimulate\n \nreal-time\n \ntrading\n \nby\n \naccelerating\n \nhistorical\n \ndata\n \nplayback.\n \n○\n \nHistorical\n \nBacktesting\n:\n \nDeveloped\n \na\n \ncomprehensive\n \nbacktesting\n \nengine\n \nto\n \nevaluate\n \ntrading\n \nstrategies\n \nagainst\n \nhistorical\n \ndata\n \nfor\n \naccuracy\n \nand\n \nperformance.\n \n4.\n \nStrategy\n \nBuilder\n:\n \nBuilt\n \na\n \nuser-friendly\n \ninterface\n \nfor\n \ncreating,\n \ntesting,\n \nand\n \ndeploying\n \ntrading\n \nstrategies\n \nwithout\n \nrequiring\n \nextensive\n \ncoding\n \nknowledge.\n \n \n \n5.\n \nRisk-Reward\n \nManager\n:\n \nDeveloped\n \ntools\n \nfor\n \nanalysing\n \nrisk-reward\n \nratios\n \nto\n \noptimise\n \ntrading\n \ndecisions\n \nand\n \nminimise\n \nlosses.\n \n6.\n \nPotential\n \nBreakout\n \nStocks\n \nDetection\n:\n \nEngineered\n \nalgorithms\n \nto\n \nidentify\n \nstocks\n \nwith\n \nhigh\n \nbreakout\n \npotential\n \nbased\n \non\n \nreal-time\n \nand\n \nhistorical\n \ndata.\n \n7.\n \nSeasonal\n \nHistorical\n \nData\n \nInsights\n:\n \nProvided\n \ntools\n \nto\n \nanalyse\n \nseasonal\n \npatterns\n \nin\n \nstock\n \nperformance\n \nto\n \nuncover\n \nlong-term\n \nmarket\n \ntrends.\n \n8.\n \nSector -wise\n \nAnalysis\n:\n \nDesigned\n \nfeatures\n \nto\n \nanalyse\n \nstocks\n \nacross\n \nsectors,\n \naiding\n \nusers\n \nin\n \nmaking\n \nsector -specific\n \ninvestment\n \ndecisions.\n \n9.\n \nDetection\n \nof\n \nManipulated\n \nStocks\n:\n \nImplemented\n \nalgorithms\n \nto\n \nidentify\n \nirregularities\n \nand\n \npotential\n \nmanipulations\n \nin\n \nstock\n \nprices\n \nusing\n \npattern\n \nrecognition\n \ntechniques.\n \n10.\n \nMarket\n \nSentiments\n \nAnalysis\n:\n \nIntegrated\n \nsentiment\n \nanalysis\n \nof\n \nnews\n \nand\n \nsocial\n \nmedia\n \ndata\n \nto\n \ngauge\n \nmarket\n \nmood\n \nand\n \nits\n \npotential\n \nimpact\n \non\n \nstock\n \nmovements.\n \n6.\n \nSmart\n \nScrapper\n \nOverview:\n \nAI\n \nagents\n \ncan\n \ndynamically\n \nanswer\n \nuser-specific\n \nquestions\n \nby\n \nextracting\n \nand\n \ninterpreting\n \ndetails\n \nfrom\n \na\n \ngiven\n \nwebsite\n \nURL.\n \nThe\n \napplication\n \nfocuses\n \non\n \nin-depth\n \ncontent\n \nand\n \nleverages\n \nmodern\n \nweb\n \nscraping\n \ntools\n \nto\n \nprovide\n \ntailored\n \ninsights\n \nbased\n \non\n \nuser\n \nprompts.\n \n \nRole:\n \nPython/ReactJS\n \ndevelopment\n \nAcquir ed\n \nSkills:-\n \nPrompt\n \nEngineering,\n \nNatural\n \nLanguage\n \nProcessing,\n \nDynamic\n \nScraping,\n \nAuthentication\n \nParadigm\n \nTechnologies\n:\n \n●\n \nFramework\n:\n \nPython,\n \nDjango\n \n●\n \nDeployment\n:\n \nDocker ,\n \nRender ,\n \nRailway ,\n \nFly.io,\n \nGitHub\n \nActions\n \n●\n \nWeb\n \nScraping\n:\n \nBeautifulSoup,\n \nRequests,\n \nPlaywright,\n \nSelenium\n \n●\n \nData\n \nValidation\n \nand\n \nSerialisation\n:\n \nPydantic\n \nKey\n \nFeatur es\n \nDeveloped\n \n1.\n \nIntelligent\n \nQuestion\n \nAnswering\n:\n \nDeveloped\n \nan\n \nAI-powered\n \nsystem\n \nthat\n \nanswers\n \nuser-defined\n \nquestions\n \nby\n \nanalysing\n \ncontent\n \nfrom\n \na\n \nwebsite's\n \nhomepage.\n \n \n \n2.\n \nSeamless\n \nWebsite\n \nAnalysis\n:\n \nThe\n \nplatform\n \nautomatically\n \nextracts\n \nand\n \nprocesses\n \nwebsite\n \ncontent,\n \ndelivering\n \nmeaningful\n \ninsights\n \nin\n \nan\n \neasy-to-understand\n \nformat\n \nwithout\n \nrequiring\n \ntechnical\n \nexpertise.\n \n3.\n \nSecur e\n \nand\n \nReliable\n \nAccess\n:\n \nIntegrated\n \na\n \nrobust\n \nauthentication\n \nmechanism\n \nusing\n \na\n \nsecret\n \nkey,\n \nensuring\n \nthat\n \nonly\n \nauthorised\n \nusers\n \ncan\n \naccess\n \nthe\n \nservice.\n \nWork\n \nExperience\n \n1.\n \nAshirwad\n \nInfotech\n \nSoftware\n \nEngineer\n \n(December\n \n2023\n \n-\n \nPresent),\n \n \nHands-on\n \ntechnology:\n \nDocker ,\n \nSQLAlchemy ,\n \nSQL,\n \nPython(Data\n \nStructures\n \nand\n \nAlgorithms),\n \nFlask,\n \nFastAPI,\n \nPrometheus,\n \nDask,\n \nModin,\n \nRay,\n \nCelery ,\n \nElasticSearch,\n \nSocketIO,\n \nJenkins,\n \nAlembic\n \nMigrations,\n \nAWS-Lamda,\n \nLangchain,\n \ns3-bucket,\n \nDigitalOcean,\n \nMachine\n \nLearning,\n \nGreat-Expectations,\n \nDuckDB\n \n \n2.\n \nSoftware\n \nEngineer,\n \nCrest\n \nData\n \nSystems\n \n·\n \n(Mar\n \n2022\n \n-\n \nNov\n \n2023)\n \n \n3.\n \nFull-stack\n \nDeveloper\n \nRaventechnolabs\n \n·\n \nInternship\n \n(Jun\n \n2020\n \n-\n \nMar\n \n2022)\n \nPython\n \nInternship"
+      }
+    },
+    {
+      "candidate_name": "Khushi Sutariya",
+      "rank": 2,
+      "overall_score": 36.086,
+      "score_breakdown": {
+        "skills_score": 31.66,
+        "experience_score": 31.92,
+        "role_alignment_score": 15,
+        "education_score": 100,
+        "weighted_total_score": 36.086,
+        "scoring_explanation": "Skills: 31.7% (weight: 40%), Experience: 31.9% (weight: 35%), Role Alignment: 15.0% (weight: 15%), Education: 100.0% (weight: 10%)"
+      },
+      "explanation": {
+        "rank_position": 2,
+        "overall_match_score": 36.086,
+        "strengths": [
+          "**API Integration Proficiency:** Demonstrates proficiency in integrating with data sources and third-party services, including experience with 'API Integration', 'Axios', and 'Fetch API'.",
+          "**REST API Understanding:** Possesses knowledge of 'REST API development' (via 'REST APIs'), which is a mandatory skill, though primarily from a consumption perspective.",
+          "**Version Control Expertise:** Proficient in 'Git' and 'GitHub', essential for collaborative development.",
+          "**Problem-Solving Skills:** Listed 'Problem Solving', which aligns with the mandatory 'Troubleshooting' requirement.",
+          "**Modern Development Practices:** Possesses valuable preferred skills such as 'Docker' and 'CI/CD'.",
+          "**Communication Skills:** Meets the mandatory requirement for 'English communication skills'.",
+          "**General Web Development Exposure:** Has experience within the broader software development and web industry, which provides some foundational context."
+        ],
+        "gaps": [
+          "**Insufficient Relevant Experience:** Has only 2.0 years of total experience, falling short of the minimum 4 years required. More critically, has **0 years of direct relevant experience** as a Backend Python Developer.",
+          "**Frontend-Centric Experience:** All reported experience is as a Frontend Web Developer (primarily React.js), which does not align with the backend nature of the role.",
+          "**Database Experience:** No explicit mention of experience with mandatory 'SQL databases' (MySQL, PostgreSQL) or 'NoSQL databases' (MongoDB, Firestore).",
+          "**API Authentication:** Lacks explicit mention of experience with 'API authentication' methods (JWT, OAuth).",
+          "**Cloud Platform Experience:** No explicit mention of experience with mandatory 'Cloud platforms' (GCP/AWS).",
+          "**Code Quality & Performance:** Skills like 'Performance optimization', 'Writing clean, efficient code', and 'Debugging' were not explicitly listed.",
+          "**Low Role Alignment:** The significant difference between a Frontend React Developer and a Backend Python Developer resulted in a very low Role Alignment score (15.0/100)."
+        ],
+        "missing_requirements": [
+          "Python (Core Python, data structures, OOPs, exception handling, logical problem-solving)",
+          "Python Framework (FastAPI, Flask, or Django)",
+          "API authentication (JWT, OAuth)",
+          "SQL databases (MySQL, PostgreSQL)",
+          "NoSQL databases (MongoDB, Firestore)",
+          "Cloud platforms (GCP or AWS - basic understanding for deployments, storage, logging)",
+          "Performance optimization",
+          "Writing clean, efficient code",
+          "Debugging"
+        ],
+        "risk_flags": [
+          "**High Irrelevant Experience Penalty:** A substantial penalty (0.8) was applied to the experience score due to the lack of direct experience in the required backend technologies and programming language (Python).",
+          "4. Overall Reasoning for the Score (36.1/100)**"
+        ],
+        "reasoning": "Here is a comprehensive explanation of Khushi Sutariya's ranking for the Backend Python Developer role:\n\n**1. Strengths**\n\n*   **Strong Educational Background:** Achieved a perfect score (100.0/100) in Education, indicating a solid academic foundation.\n*   **API Integration Proficiency:** Demonstrates proficiency in integrating with data sources and third-party services, including experience with 'API Integration', 'Axios', and 'Fetch API'.\n*   **REST API Understanding:** Possesses knowledge of 'REST API development' (via 'REST APIs'), which is a mandatory skill, though primarily from a consumption perspective.\n*   **Version Control Expertise:** Proficient in 'Git' and 'GitHub', essential for collaborative development.\n*   **Problem-Solving Skills:** Listed 'Problem Solving', which aligns with the mandatory 'Troubleshooting' requirement.\n*   **Modern Development Practices:** Possesses valuable preferred skills such as 'Docker' and 'CI/CD'.\n*   **Communication Skills:** Meets the mandatory requirement for 'English communication skills'.\n*   **General Web Development Exposure:** Has experience within the broader software development and web industry, which provides some foundational context.\n\n**2. Gaps/Missing Requirements**\n\n*   **Core Backend Language & Frameworks:** Lacks fundamental mandatory skills in 'Python' and its associated backend frameworks ('FastAPI', 'Flask', 'Django'). This is the most critical gap.\n*   **Insufficient Relevant Experience:** Has only 2.0 years of total experience, falling short of the minimum 4 years required. More critically, has **0 years of direct relevant experience** as a Backend Python Developer.\n*   **Frontend-Centric Experience:** All reported experience is as a Frontend Web Developer (primarily React.js), which does not align with the backend nature of the role.\n*   **Database Experience:** No explicit mention of experience with mandatory 'SQL databases' (MySQL, PostgreSQL) or 'NoSQL databases' (MongoDB, Firestore).\n*   **API Authentication:** Lacks explicit mention of experience with 'API authentication' methods (JWT, OAuth).\n*   **Cloud Platform Experience:** No explicit mention of experience with mandatory 'Cloud platforms' (GCP/AWS).\n*   **Code Quality & Performance:** Skills like 'Performance optimization', 'Writing clean, efficient code', and 'Debugging' were not explicitly listed.\n*   **Missing Preferred Backend Technologies:** Lacks preferred skills such as specific 'GCP services', 'Microservices architecture', 'Redis', 'Elasticsearch', 'Message queues', and 'Pandas/Numpy'.\n*   **Low Role Alignment:** The significant difference between a Frontend React Developer and a Backend Python Developer resulted in a very low Role Alignment score (15.0/100).\n\n**3. Risk Flags**\n\n*   **Underqualified for the Role:** Explicitly flagged as underqualified due to the significant mismatch in experience level and type.\n*   **High Irrelevant Experience Penalty:** A substantial penalty (0.8) was applied to the experience score due to the lack of direct experience in the required backend technologies and programming language (Python).\n*   **Significant Skill Mismatch:** The absence of core Python backend development skills poses a high risk to the candidate's ability to perform the primary duties of the role effectively.\n\n**4. Overall Reasoning for the Score (36.1/100)**\n\nKhushi Sutariya's overall score of 36.1/100 is primarily driven by significant mismatches in core technical skills and relevant experience, despite a strong educational background.\n\nWhile the candidate achieved a perfect score in **Education (100.0/100)**, this could not compensate for the critical deficiencies in other areas. The **Skills Match (31.7/100)** is low because, while the candidate possesses valuable general development and integration skills (e.g., REST API understanding, Git, Docker, CI/CD), they critically lack the fundamental mandatory skills in Python and its associated backend frameworks, databases, and cloud platforms.\n\nThe **Experience (31.9/100)** score is low due to two main factors: the candidate's total experience (2.0 years) is less than the minimum 4 years required, and more importantly, their entire professional experience is as a Frontend Web Developer. This means they have **0 years of direct, hands-on experience as a Backend Python Developer**, leading to a high irrelevant experience penalty.\n\nConsequently, the **Role Alignment (15.0/100)** is very low, reflecting the substantial difference between the candidate's frontend expertise and the backend Python requirements of the role.\n\nIn summary, the candidate's strong academic profile and some transferable skills are overshadowed by a fundamental lack of direct experience and proficiency in the core backend Python technologies and the required experience level for this Mid-level Backend Python Developer position."
+      },
+      "structured_resume": {
+        "candidate_name": "Khushi Sutariya",
+        "skills": [
+          "Typescript",
+          "Javascript",
+          "CSS",
+          "HTML",
+          "React.js",
+          "Next.js",
+          "Redux",
+          "Context API",
+          "Tailwind CSS",
+          "Bootstrap",
+          "MUI",
+          "Axios",
+          "Fetch API",
+          "API Integration",
+          "Git",
+          "GitHub",
+          "Postman",
+          "CI/CD",
+          "Docker",
+          "Node.js",
+          "Responsive UI development",
+          "User-friendly interfaces",
+          "REST APIs",
+          "Problem Solving",
+          "Team Collaboration",
+          "Fast Learner",
+          "Analytical Thinking",
+          "Time Management",
+          "English",
+          "Hindi",
+          "Gujarati"
+        ],
+        "experience": [
+          {
+            "job_title": "Frontend Web Developer",
+            "company_name": "Ashirwad Infotech",
+            "duration": "2 years",
+            "description": "At Ashirwad Infotech, I worked as a Frontend Web Developer focusing on building responsive, user-friendly interfaces using React.js. I collaborated with backend teams to integrate REST APIs, improved UI performance, fixed frontend issues, and ensured smooth user experiences across devices. My work contributed to creating clean, efficient, and visually consistent web applications."
+          }
+        ],
+        "total_years_experience": 2,
+        "projects": null,
+        "education": [
+          {
+            "degree": "Master of Computer Application",
+            "institution": null,
+            "year": "2023-2025"
+          },
+          {
+            "degree": "Bachelor of Computer Application",
+            "institution": null,
+            "year": "2020-2023"
+          }
+        ],
+        "certifications": null,
+        "raw_text": "CONTACT\nTECHNICAL SKILLS\nLANGUAGES9265790630\nkhushisutariya272@gmail.com\nSurat , India.\nKhushi Sutariya\nTypescripts\nJavascripts\nCss\nHTML\nReact.js\nNext.js\nRedux / Context API\nTailwind CSS / Bootstrap / MUI\nAxios / Fetch API\nAPI Integration\nGit, GitHub\nPostman\nCI/CD (Basics)\nDocker (Basics)\nNodeJs (Basic)\nSOFT SKILLS\nEnglish (Intermediate)KHUSHI SUTARIYA\nFRONTEND WEB DEVELOPER\nW ORK EXPERIENCE\nEDUCATIONPROFILE\nFrontend Web Developer with strong expertise in building responsive,\nuser-friendly, and high-performance web interfaces. Skilled in modern\nJavaScript frameworks, UI/UX best practices, and translating design\nconcepts into clean, functional code. Experienced in optimizing web\napplications for speed, accessibility, and cross-browser compatibility while\ncollaborating closely with backend teams to deliver seamless user\nexperiences.\n2022- PRESENT Ashirwad Infotech\nFrontend web develoepr\nAt Ashirwad Infotech, I worked as a Frontend Web Developer focusing\non building responsive, user-friendly interfaces using React.js. I\ncollaborated with backend teams to integrate REST APIs, improved UI\nperformance, fixed frontend issues, and ensured smooth user\nexperiences across devices. My work contributed to creating clean,\nefficient, and visually consistent web applications.\n2023 - 2025Master of Computer Application\nBechlore of  Computer Application\nHindi (Fluent)\nGujarati (Fluent)Responsive UI development\nUser friendlly interfaces\nGit & GitHub version control\nREST APIs\nProblem Solving\nTeam Collaboration\nFast Learner\nAnalytical Thinking\nTime Management2020-2023"
+      }
+    }
+  ],
+  "summary": {
+    "top_3_candidates": [
+      {
+        "name": "Manav Butani",
+        "score": 93.46199999999999,
+        "rank": 1
+      },
+      {
+        "name": "Khushi Sutariya",
+        "score": 36.086,
+        "rank": 2
+      }
+    ],
+    "common_gaps_observed": [
+      "**Lack of Direct Backend Python Experience:** A significant number of candidates exhibit frontend-centric experience (e.g., React.js) or simply lack direct, relevant experience as a Backend Python Developer, failing to meet the core requirement of the role.",
+      "**Insufficient Total & Relevant Experience:** Candidates frequently fall short of the minimum 4 years of total experience required for a mid-level position, and critically, have very little to no direct relevant experience in the specific backend technologies.",
+      "**Limited GCP Services Experience:** Many candidates lack explicit experience with specific Google Cloud Platform services (BigQuery, Dataflow, Cloud Functions, Notebooks), despite general cloud experience sometimes being present."
+    ],
+    "hiring_risks": [
+      "**Significant Skill Mismatch:** The prevalence of frontend-centric or generally irrelevant experience among applicants indicates a substantial mismatch between the candidate pool and the specific backend Python requirements. This suggests either the job description isn't attracting the right talent, or the available talent pool is heavily skewed.",
+      "**Scarcity of Niche Skill Combinations:** The repeated lack of experience in specific GCP services and mandatory database technologies, combined with the core Python backend requirement, points to a scarcity of candidates possessing the full desired technical stack.",
+      "**Experience Level Discrepancy:** A consistent pattern of candidates not meeting the minimum total years of experience for a mid-level role suggests a limited pool of appropriately experienced individuals applying, potentially leading to longer time-to-hire or a need to adjust experience expectations."
+    ],
+    "overall_statistics": {
+      "total_candidates": 2,
+      "average_score": 64.77,
+      "max_score": 93.46,
+      "min_score": 36.09,
+      "top_score": 93.46
+    }
+  },
+  "scoring_weights_used": {
+    "skills_match": 0.4,
+    "relevant_experience": 0.35,
+    "role_alignment": 0.15,
+    "education_certifications": 0.1
+  },
+  "processing_metadata": {
+    "total_resumes_processed": 2,
+    "total_candidates_ranked": 2,
+    "intermediate_outputs": {
+      "jd_parsing": {
+        "status": "success",
+        "role_title": "Backend Python Developer",
+        "mandatory_skills_count": 14,
+        "preferred_skills_count": 9
+      },
+      "resume_parsing": {
+        "resume_0": {
+          "status": "success",
+          "candidate_name": "Khushi Sutariya",
+          "skills_count": 31,
+          "experience_count": 1
+        },
+        "resume_1": {
+          "status": "success",
+          "candidate_name": "Manav Butani",
+          "skills_count": 84,
+          "experience_count": 3
+        }
+      },
+      "skill_matching": {
+        "resume_0": {
+          "status": "success",
+          "skill_match_score": 31.66
+        },
+        "resume_1": {
+          "status": "success",
+          "skill_match_score": 88.33
+        }
+      },
+      "experience_evaluation": {
+        "resume_0": {
+          "status": "success",
+          "domain_relevance": 60
+        },
+        "resume_1": {
+          "status": "success",
+          "domain_relevance": 98
+        }
+      },
+      "scoring": {
+        "resume_0": {
+          "status": "success",
+          "overall_score": 36.086
+        },
+        "resume_1": {
+          "status": "success",
+          "overall_score": 93.46199999999999
+        }
+      }
+    }
+  }
+}
