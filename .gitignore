@@ -37,6 +37,12 @@ env/
 .env
 .env.local
 
+# API Keys and secrets
+key
+*.key
+secrets/
+*.secret
+
 # Database
 *.db
 *.sqlite
