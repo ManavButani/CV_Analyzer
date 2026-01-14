@@ -35,19 +35,37 @@ async def evaluate_experience(
         - Total Years: {structured_resume.total_years_experience}
         - Experience Details: {experience_details_str}
         
+        MISSING DATA HANDLING:
+        - If candidate has no experience listed: 
+          * total_relevant_experience_years = 0
+          * domain_relevance_score = 0
+          * role_alignment_score = 0
+          * overqualification_flag = false
+          * irrelevant_experience_penalty = 0
+        - If experience is listed but lacks details (no years, no descriptions):
+          * Estimate conservatively (lower scores)
+          * Note missing information in explanation
+        
         Your task:
-        1. Calculate total relevant experience years (only count experience relevant to the JD)
-        2. Assess domain relevance score (0-100): How well does their experience align with the domain/industry?
-        3. Assess role alignment score (0-100): How well do their past roles align with the target role?
-        4. Check for overqualification: Is the candidate significantly overqualified? (boolean)
-        5. Calculate irrelevant experience penalty (0-1): Penalty for experience in completely unrelated fields
-        6. Provide detailed explanation of the evaluation
+        1. Calculate total_relevant_experience_years (only count experience relevant to JD)
+           - If no experience listed: return 0
+        2. Assess domain_relevance_score (0-100): How relevant is the candidate's domain experience?
+           - If no experience: score = 0
+        3. Assess role_alignment_score (0-100): How well does the experience align with the role?
+           - If no experience: score = 0
+        4. Check overqualification_flag: Is the candidate significantly overqualified?
+           - Only true if experience significantly exceeds requirements
+        5. Calculate irrelevant_experience_penalty (0-1): Penalty for irrelevant experience
+           - If no experience: penalty = 0 (not penalized for missing data, just scored as 0)
+        6. Explain your evaluation and note any missing experience data
         
         Guidelines:
         - Penalize overqualification (e.g., Senior applying for Junior role)
         - Penalize irrelevant experience (e.g., Marketing experience for Software Engineer role)
         - Reward relevant domain experience
         - Consider role progression and career trajectory
+        
+        All scores must be between 0-100.
         """
         
         experience_result, status = await handler.invoke_structured(

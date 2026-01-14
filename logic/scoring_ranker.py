@@ -19,6 +19,13 @@ async def calculate_candidate_score(
     """
     Calculate final score and generate explanation for a candidate.
     
+    MISSING DATA HANDLING:
+    - Missing skills: Penalized in skill_match_score (0% for missing mandatory skills)
+    - Missing experience: If no experience listed, experience_score = 0
+    - Missing education: If JD requires education but resume has none, education_score = 0
+    - Missing certifications: If JD requires but resume has none, small penalty applied
+    - Missing projects: No penalty (optional field)
+    
     Returns:
         Tuple of (CandidateScore, CandidateExplanation, status_code)
     """
@@ -36,28 +43,56 @@ async def calculate_candidate_score(
                 "education_certifications": 0.10
             }
         
-        # Calculate education score (simple check)
+        # Calculate education score with explicit missing data handling
         education_score = 0.0
-        if structured_jd.education_requirements:
-            if structured_resume.education:
-                # Simple matching - can be enhanced
+        if structured_jd.education_requirements and len(structured_jd.education_requirements) > 0:
+            # JD requires education
+            if not structured_resume.education or len(structured_resume.education) == 0:
+                # MISSING DATA: No education listed when required = 0 score
+                education_score = 0.0
+            else:
+                # Check if any education matches requirements (simple matching)
+                # Award partial score based on number of education entries
                 education_score = min(100.0, len(structured_resume.education) * 50.0)
         else:
-            education_score = 100.0  # No requirement = full score
+            # No education requirement = full score (no penalty for missing data)
+            education_score = 100.0
         
-        # Calculate component scores
+        # Handle missing experience data
+        if not structured_resume.experience or len(structured_resume.experience) == 0:
+            # MISSING DATA: No experience listed
+            # This will be reflected in experience_eval, but we ensure it's penalized
+            if experience_eval.total_relevant_experience_years == 0:
+                experience_eval.domain_relevance_score = 0.0
+                experience_eval.role_alignment_score = 0.0
+        
+        # Calculate component scores with missing data handling
         skills_score = skill_match.skill_match_score
-        experience_score = (
-            experience_eval.domain_relevance_score * 0.6 + 
-            experience_eval.role_alignment_score * 0.4
-        )
-        role_alignment_score = experience_eval.role_alignment_score
+        # MISSING DATA: If no skills listed, skill_match_score should already be 0 from skill_matcher
         
-        # Apply penalties
-        if experience_eval.overqualification_flag:
-            experience_score *= 0.8  # 20% penalty for overqualification
+        # Calculate experience score
+        if not structured_resume.experience or len(structured_resume.experience) == 0:
+            # MISSING DATA: No experience listed = 0 experience score
+            experience_score = 0.0
+            role_alignment_score = 0.0
+        else:
+            experience_score = (
+                experience_eval.domain_relevance_score * 0.6 + 
+                experience_eval.role_alignment_score * 0.4
+            )
+            role_alignment_score = experience_eval.role_alignment_score
+            
+            # Apply penalties for overqualification and irrelevant experience
+            if experience_eval.overqualification_flag:
+                experience_score *= 0.8  # 20% penalty for overqualification
+            
+            experience_score *= (1.0 - experience_eval.irrelevant_experience_penalty * 0.3)
         
-        experience_score *= (1.0 - experience_eval.irrelevant_experience_penalty * 0.3)
+        # Ensure scores are within valid range [0, 100]
+        skills_score = max(0.0, min(100.0, skills_score))
+        experience_score = max(0.0, min(100.0, experience_score))
+        role_alignment_score = max(0.0, min(100.0, role_alignment_score))
+        education_score = max(0.0, min(100.0, education_score))
         
         # Calculate weighted total
         weighted_total = (
@@ -67,8 +102,23 @@ async def calculate_candidate_score(
             education_score * normalized_weights.get("education_certifications", 0.10)
         )
         
+        # Track missing data flags for explanation
+        missing_data_flags = []
+        if not structured_resume.skills or len(structured_resume.skills) == 0:
+            missing_data_flags.append("No skills listed in resume")
+        if not structured_resume.experience or len(structured_resume.experience) == 0:
+            missing_data_flags.append("No work experience listed")
+        if structured_jd.education_requirements and (not structured_resume.education or len(structured_resume.education) == 0):
+            missing_data_flags.append("No education listed (required by JD)")
+        if skill_match.missing_mandatory_skills:
+            missing_data_flags.append(f"Missing mandatory skills: {', '.join(skill_match.missing_mandatory_skills[:3])}")
+        
         # Generate explanation using AI
         try:
+            missing_data_note = ""
+            if missing_data_flags:
+                missing_data_note = f"\n\nMISSING DATA DETECTED:\n" + "\n".join([f"- {flag}" for flag in missing_data_flags])
+            
             explanation_prompt = f"""
             Generate a comprehensive explanation for this candidate's ranking.
             
@@ -81,6 +131,7 @@ async def calculate_candidate_score(
             - Role Alignment: {role_alignment_score:.1f}/100
             - Education: {education_score:.1f}/100
             - Overall Score: {weighted_total:.1f}/100
+            {missing_data_note}
             
             Skill Analysis:
             {skill_match.skill_explanation}
@@ -90,9 +141,9 @@ async def calculate_candidate_score(
             
             Provide:
             1. List of strengths (bullet points)
-            2. List of gaps/missing requirements (bullet points)
-            3. List of risk flags (if any)
-            4. Overall reasoning for the score
+            2. List of gaps/missing requirements (bullet points) - include any missing data issues
+            3. List of risk flags (if any) - include missing mandatory requirements
+            4. Overall reasoning for the score - explain how missing data affected the score
             
             Format as clear bullet points.
             """
@@ -195,23 +246,30 @@ async def rank_candidates(
     """
     Rank candidates and generate final summary.
     
+    TIE RESOLUTION LOGIC (applied in order):
+    1. Primary: Weighted total score (descending)
+    2. Secondary: Skills match score (descending) - candidates with better skill matches rank higher
+    3. Tertiary: Experience score (descending) - candidates with more relevant experience rank higher
+    4. Quaternary: Role alignment score (descending) - better role fit ranks higher
+    5. Final: Education score (descending) - if all else equal, better education ranks higher
+    
+    If all scores are identical, candidates maintain their original order (stable sort).
+    
     Returns:
         Tuple of (List[RankedCandidate], ScreeningSummary, status_code)
     """
     try:
-        # Sort by weighted total score (descending)
+        # TIE RESOLUTION: Multi-key sort with explicit tie-breaking criteria
         sorted_data = sorted(
             ranked_data,
-            key=lambda x: x[1].weighted_total_score,
-            reverse=True
+            key=lambda x: (
+                -x[1].weighted_total_score,  # Primary: total score (negative for descending)
+                -x[1].skills_score,          # Secondary: skills match
+                -x[1].experience_score,      # Tertiary: experience
+                -x[4].role_alignment_score,  # Quaternary: role alignment (from experience_eval)
+                -x[1].education_score        # Final: education
+            )
         )
-        
-        # Handle ties by using secondary criteria
-        for i in range(len(sorted_data)):
-            if i > 0 and sorted_data[i][1].weighted_total_score == sorted_data[i-1][1].weighted_total_score:
-                # Tie: prefer better skills match
-                if sorted_data[i][1].skills_score < sorted_data[i-1][1].skills_score:
-                    sorted_data[i], sorted_data[i-1] = sorted_data[i-1], sorted_data[i]
         
         # Create ranked candidates
         ranked_candidates = []
